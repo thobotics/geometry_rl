@@ -1,0 +1,13 @@
+defaults:
+  - default
+
+proj_type: "kl"
+mean_bound: 0.05
+cov_bound: 0.0005
+trust_region_coeff: 1.0
+scale_prec: True 
+entropy_schedule: False
+target_entropy: 0.0
+temperature: 0.5
+entropy_eq: False
+entropy_first: False

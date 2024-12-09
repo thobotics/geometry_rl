@@ -1,0 +1,10 @@
+proj_type: "ppo"
+mean_bound: 0.0
+cov_bound: 0.0
+trust_region_coeff: 0.0
+scale_prec: True 
+entropy_schedule: False
+target_entropy: 0.0
+temperature: 0.5
+entropy_eq: False
+entropy_first: False

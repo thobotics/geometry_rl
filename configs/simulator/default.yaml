@@ -1,0 +1,7 @@
+video: ${env.video}
+video_length: ${env.video_length}
+video_interval: ${env.video_interval}
+
+headless: False
+livestream: -1
+offscreen_render: False

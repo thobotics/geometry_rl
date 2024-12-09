@@ -1,0 +1,13 @@
+- _target_: torchrl.envs.VecNorm
+  in_keys: ["policy"]
+  decay: 0.99999
+  eps: 1e-2
+
+- _target_: torchrl.envs.ClipTransform
+  in_keys: ["policy"]
+  low: -50.0
+  high: 50.0
+
+- _target_: torchrl.envs.RewardSum
+
+- _target_: torchrl.envs.StepCounter

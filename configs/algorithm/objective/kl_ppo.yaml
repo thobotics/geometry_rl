@@ -1,0 +1,15 @@
+__target__: torchrl.objectives.KLPENPPOLoss
+gamma: 0.99
+mini_batch_size: 16_000 
+ppo_epochs: 5
+gae_lambda: 0.95
+dtarg: 0.01
+beta: 1.0
+increment: 2
+decrement: 0.5
+samples_mc_kl: 1
+entropy_coef: 0.0
+critic_coef: 1.0
+loss_critic_type: l2
+clip_grad_norm: True
+max_grad_norm: 1.0

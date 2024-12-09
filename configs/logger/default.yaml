@@ -1,0 +1,27 @@
+backend: wandb
+exp_name: ${experiment_name}
+test_interval: 10
+num_test_episodes: 5
+log_dir: logs
+project: torchrl
+
+# wandb specific configurations
+# example of having custom group keys and run names
+experiment_name:
+  seed: ${env.seed}
+
+group:
+  - ${env.name}
+
+job_keys:
+  alg: algorithm.name
+  act: algorithm.policy.p2c_agent.model.name
+  extra:
+
+checkpoint:
+  save_each_n_iter: True
+  save_interval: 10
+  save_best: True
+
+  load_dir: null
+  model_checkpoint: null

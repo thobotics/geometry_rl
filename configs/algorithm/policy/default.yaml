@@ -1,0 +1,7 @@
+policy_type: diag
+distribution_class: torchrl.modules.IndependentNormal
+init_noise_std: 1.0
+hidden_sizes:
+- 64
+- 64
+activation: torch.nn.ELU

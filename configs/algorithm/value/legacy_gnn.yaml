@@ -1,0 +1,10 @@
+defaults:
+  - p2c_agent/model: ../../../p2c_agent/model/hetero_mgn
+  - p2c_agent/data: 
+
+value_type: "gnn"
+hidden_sizes:
+- 64
+- 64
+activation: elu
+in_features: ["observation"]

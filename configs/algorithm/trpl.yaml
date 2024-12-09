@@ -1,0 +1,9 @@
+defaults:
+  - policy: legacy
+  - value: default
+  - projection: kl
+  - objective: trpl
+  - optim: default
+  - p2c_agent: null
+
+name: trpl

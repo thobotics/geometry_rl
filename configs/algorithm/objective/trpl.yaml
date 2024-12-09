@@ -1,0 +1,14 @@
+__target__: ironlib.algorithms.objectives.TRPLLoss
+gamma: 0.99
+mini_batch_size: 16_000 
+ppo_epochs: 5
+gae_lambda: 0.95
+clip_epsilon: 0.2
+anneal_clip_epsilon: False
+critic_coef: 1.0
+entropy_coef: 0.0
+entropy_bonus: True
+clip_value: 0.2
+loss_critic_type: l2
+clip_grad_norm: True
+max_grad_norm: 1.0

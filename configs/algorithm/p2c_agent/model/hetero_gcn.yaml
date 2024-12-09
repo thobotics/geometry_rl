@@ -1,0 +1,22 @@
+_target_: con_mgn.models.hetero_mgn.HeteroGCN
+
+latent_dim: &latent_dim 64
+hidden_dim: 64
+output_dim: 64
+
+num_messages: 4
+message_passing:
+  
+  - processor:
+      _target_: con_mgn.models.networks.ProcessorLayer
+      update_edge: False
+      in_channels: *latent_dim
+      out_channels: *latent_dim
+    code: [1, 1, 1, 1]
+    
+  - processor: 
+      _target_: con_mgn.models.networks.ProcessorLayer
+      update_edge: False
+      in_channels: *latent_dim
+      out_channels: *latent_dim
+    code: [0, 0, 0, 1]

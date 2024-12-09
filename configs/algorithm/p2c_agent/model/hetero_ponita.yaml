@@ -1,0 +1,48 @@
+_target_: ironlib.modules.pyg_models.hetero_ponita.HeteroPONITA
+name: Hetero-PONITA  # for logging purposes
+
+latent_dim: &latent_dim 64
+hidden_dim: 64
+output_dim: 1
+output_dim_vec: 1
+num_ori: 16
+degree: 2
+
+node_encoder_layers: 2
+edge_encoder_layers: 2
+node_decoder_layers: 2
+shared_processor: False
+concat_global: False  # True
+
+num_messages: 1
+message_passing:
+  
+  - processor:
+      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      in_channels: *latent_dim
+      out_channels: *latent_dim
+      attr_dim: *latent_dim
+      groups: *latent_dim
+      separable: True
+      widening_factor: 4
+    code: [0]
+    
+  - processor: 
+      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      in_channels: *latent_dim
+      out_channels: *latent_dim
+      attr_dim: *latent_dim
+      groups: *latent_dim
+      separable: True
+      widening_factor: 4
+    code: [1]
+
+  - processor: 
+      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      in_channels: *latent_dim
+      out_channels: *latent_dim
+      attr_dim: *latent_dim
+      groups: *latent_dim
+      separable: True
+      widening_factor: 4
+    code: [1]

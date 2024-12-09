@@ -1,0 +1,6 @@
+value_type: "mlp"
+hidden_sizes:
+- 64
+- 64
+activation: torch.nn.ELU
+in_features: ["observation"]

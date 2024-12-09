@@ -1,0 +1,6 @@
+tensordict==0.3.1
+torchrl==0.3.1
+hydra-core
+hydra-colorlog
+omegaconf
+einops

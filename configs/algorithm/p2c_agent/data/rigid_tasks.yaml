@@ -1,0 +1,14 @@
+base_data:
+  _target_: ironlib.modules.pyg_data.rigid_tasks_data.RigidTasksData
+  full_graph_obs: True
+  output_mask_key: "grippers"
+  training_noise: False
+  training_noise_std: 0.01
+  knn_k: 3
+  knn_to_actuators_k: -1  # -1 means fully connected
+
+node_type_class: ironlib.modules.pyg_data.rigid_tasks_data.NodeType
+edge_type_class: ironlib.modules.pyg_data.rigid_tasks_data.EdgeType
+edge_level_class: ironlib.modules.pyg_data.rigid_tasks_data.EdgeLevel
+input_node_aux_dim: 9 #  3 for boundary_hole_dist,  3 for init_mesh_dist, 3 for mesh_pos, 3 for mesh_vel
+input_edge_aux_dim: 4 # 3 for relative displacement, 1 for distance

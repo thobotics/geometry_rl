@@ -1,0 +1,18 @@
+defaults:
+  - transform: default
+
+name: Isaac-Ant-v0
+seed: 0
+num_envs: 4000
+device: cuda
+warmup_steps: 0
+extra:
+
+env_info:
+  root_key: log
+  prefix_key_name: Reward
+
+# Video recording settings
+video: False
+video_length: 200
+video_interval: 2000

@@ -1,0 +1,19 @@
+defaults:
+  - p2c_agent/model: ../../../p2c_agent/model/hetero_mgn
+  - p2c_agent/data: 
+
+policy_type: "gnn_diag"
+distribution_class: torch.distributions.MultivariateNormal
+init: "orthogonal"
+minimal_std: 1e-5
+init_std: 1.0
+contextual_std: True
+shared_critic: False
+hidden_sizes:
+- 64
+- 64
+activation: elu # for legacy network
+in_features: ["observation"]
+out_dim: null
+share_action_dim: True # for normal Message Passing, it should be true, but for Pooling it should be false
+action_dim: 3

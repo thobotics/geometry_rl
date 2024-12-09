@@ -1,0 +1,3 @@
+- _target_: torchrl.envs.RewardSum
+
+- _target_: torchrl.envs.StepCounter

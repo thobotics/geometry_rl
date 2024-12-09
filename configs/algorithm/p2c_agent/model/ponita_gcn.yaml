@@ -1,0 +1,12 @@
+_target_: ironlib.modules.pyg_models.ponita_gcn.PonitaGCN
+name: PONITA-GCN  # for logging purposes
+
+hidden_dim: 64
+output_dim: 1
+output_dim_vec: 1
+num_layers: 2  # 2
+dropout: 0.0
+num_ori: 16
+degree: 2
+widening_factor: 4
+attention: False
