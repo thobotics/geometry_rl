@@ -4,6 +4,6 @@ defaults:
   - projection: default
   - objective: default
   - optim: default
-  - p2c_agent: null
+  - pyg_agent: null
 
 name: ppo

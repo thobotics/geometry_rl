@@ -16,11 +16,11 @@ defaults:
   # specify here what to override for default configurations, e.g.:
   - override env/transform: normalize_3d_and_clip
   - override algorithm/policy: legacy_gnn
-  - override algorithm/policy/p2c_agent/data: ../../../p2c_agent/data/rope_tasks
-  - override algorithm/policy/p2c_agent/model: ../../../p2c_agent/model/hetero_ponita_2
+  - override algorithm/policy/pyg_agent/data: ../../../pyg_agent/data/rope_tasks
+  - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/hetero_ponita_2
   - override algorithm/value: legacy_gnn
-  - override algorithm/value/p2c_agent/data: ../../../p2c_agent/data/rope_tasks
-  - override algorithm/value/p2c_agent/model: ../../../p2c_agent/model/deepsets
+  - override algorithm/value/pyg_agent/data: ../../../pyg_agent/data/rope_tasks
+  - override algorithm/value/pyg_agent/model: ../../../pyg_agent/model/deepsets
   - _self_
 
 
@@ -67,8 +67,8 @@ env:
 
     - _target_: torchrl.envs.ClipTransform
       in_keys: ["scalars", "position_vectors", "velocity_vectors", "norm_position_vectors", "norm_velocity_vectors"]
-      low: -50.0
-      high: 50.0
+      low: -20.0
+      high: 20.0
 
     - _target_: torchrl.envs.RewardSum
 
@@ -94,7 +94,7 @@ algorithm:
       - norm_position_vectors
       - norm_velocity_vectors
     share_action_dim: True
-    p2c_agent:
+    pyg_agent:
       data:
         base_data:
           concat_input_vector: False # NOTE: this is different from the original configuration
@@ -119,7 +119,7 @@ algorithm:
       - velocity_vectors
       - norm_position_vectors
       - norm_velocity_vectors
-    p2c_agent:
+    pyg_agent:
       data:
         base_data:
           full_graph_obs: True

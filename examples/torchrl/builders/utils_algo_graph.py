@@ -58,7 +58,7 @@ def _build_pyg_model(
     return model
 
 
-def _make_p2c_agent(
+def _make_pyg_agent(
     proof_environment,
     config,
     device: torch.device = torch.device("cuda"),
@@ -223,9 +223,9 @@ def make_ppo_models(proof_environment, config, total_network_updates):
         # Unbounded action space
         distribution_kwargs = {}
 
-    mgn, hyper_data = _make_p2c_agent(
+    mgn, hyper_data = _make_pyg_agent(
         proof_environment=proof_environment,
-        config=config["policy"].pop("p2c_agent"),
+        config=config["policy"].pop("pyg_agent"),
         device=proof_environment.device,
     )
 
@@ -257,9 +257,9 @@ def make_ppo_models(proof_environment, config, total_network_updates):
         )
 
     if critic_type == "gnn":
-        mgn, hyper_data = _make_p2c_agent(
+        mgn, hyper_data = _make_pyg_agent(
             proof_environment=proof_environment,
-            config=config["value"].pop("p2c_agent"),
+            config=config["value"].pop("pyg_agent"),
             device=proof_environment.device,
         )
 

@@ -4,6 +4,6 @@ defaults:
   - projection: default
   - objective: kl_ppo
   - optim: default
-  - p2c_agent: null
+  - pyg_agent: null
 
 name: kl_ppo

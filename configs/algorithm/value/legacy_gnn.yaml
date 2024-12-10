@@ -1,6 +1,6 @@
 defaults:
-  - p2c_agent/model: ../../../p2c_agent/model/hetero_mgn
-  - p2c_agent/data: 
+  - pyg_agent/model: ../../../pyg_agent/model/hetero_mgn
+  - pyg_agent/data: 
 
 value_type: "gnn"
 hidden_sizes:

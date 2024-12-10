@@ -15,7 +15,7 @@ group:
 
 job_keys:
   alg: algorithm.name
-  act: algorithm.policy.p2c_agent.model.name
+  act: algorithm.policy.pyg_agent.model.name
   extra:
 
 checkpoint:
