@@ -1,5 +1,5 @@
-_target_: ironlib.modules.pyg_models.hetero_ponita.HeteroPONITA
-name: Hetero-PONITA_Attention-m2  # for logging purposes
+_target_: ironlib.modules.pyg_models.hepi.HEPi
+name: HEPi_Attention  # for logging purposes
 
 latent_dim: &latent_dim 64
 hidden_dim: 64

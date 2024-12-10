@@ -1,5 +1,5 @@
-_target_: ironlib.modules.pyg_models.hetero_ponita.HeteroPONITA
-name: Hetero-PONITA-m4  # for logging purposes
+_target_: ironlib.modules.pyg_models.hepi.HEPi
+name: HEPi  # for logging purposes
 
 latent_dim: &latent_dim 64
 hidden_dim: 64
@@ -14,7 +14,7 @@ node_decoder_layers: 2
 shared_processor: False
 concat_global: False  # True
 
-num_messages: 4
+num_messages: 2
 message_passing:
   
   - processor:
@@ -25,7 +25,7 @@ message_passing:
       groups: *latent_dim
       separable: True
       widening_factor: 4
-    code: [1, 1, 1, 0]
+    code: [1, 0]
     
   - processor: 
       _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
@@ -35,7 +35,7 @@ message_passing:
       groups: *latent_dim
       separable: True
       widening_factor: 4
-    code: [0, 0, 0, 1]
+    code: [0, 1]
 
   - processor: 
       _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
@@ -45,4 +45,4 @@ message_passing:
       groups: *latent_dim
       separable: True
       widening_factor: 4
-    code: [0, 0, 0, 1]
+    code: [0, 1]

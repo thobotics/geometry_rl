@@ -12,7 +12,7 @@ from .ponita.hetero_fiber_conv import HeteroFiberConv
 from .ponita.utils.to_from_sphere import scalar_to_sphere, vec_to_sphere
 
 
-class HeteroPONITA(MeshGraphNet):
+class HEPi(MeshGraphNet):
     def __init__(
         self,
         input_dim_node,
