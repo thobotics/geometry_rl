@@ -1,5 +1,5 @@
 defaults:
-  - pyg_agent/model: ../../../pyg_agent/model/hetero_mgn
+  - pyg_agent/model: ../../../pyg_agent/model/hepi
   - pyg_agent/data: 
 
 value_type: "gnn"

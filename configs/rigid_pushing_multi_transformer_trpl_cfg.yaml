@@ -16,10 +16,10 @@ defaults:
   # specify here what to override for default configurations, e.g.:
   - override env/transform: normalize_3d_and_clip
   - override algorithm/policy: legacy_gnn
-  - override algorithm/policy/pyg_agent/data: ../../../pyg_agent/data/rope_tasks
-  - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/hepi
+  - override algorithm/policy/pyg_agent/data: ../../../pyg_agent/data/rigid_tasks
+  - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/transformer
   - override algorithm/value: legacy_gnn
-  - override algorithm/value/pyg_agent/data: ../../../pyg_agent/data/rope_tasks
+  - override algorithm/value/pyg_agent/data: ../../../pyg_agent/data/rigid_tasks
   - override algorithm/value/pyg_agent/model: ../../../pyg_agent/model/deepsets
   - _self_
 
@@ -36,13 +36,13 @@ work_dir: ${hydra:runtime.cwd}
 
 logger:
   checkpoint:
-    save_interval: 5
+    save_interval: 4
 
 # specific configuration
 env:
-  name: Isaac-Rope-Shaping-v0
-  num_envs: 200
-  warmup_steps: 10
+  name: Isaac-Rigid-Pushing-Multi-v0
+  num_envs: 1000
+  warmup_steps: 5
   transform:
     - _target_: ironlib.torchrl.envs.ReshapeTransform
       in_keys: ["position_vectors", "velocity_vectors"]
@@ -61,79 +61,77 @@ env:
       eps: 1e-2
 
     - _target_: torchrl.envs.FlattenObservation
-      in_keys: ["norm_position_vectors", "norm_velocity_vectors", "position_vectors", "velocity_vectors"]
+      in_keys: ["norm_position_vectors", "norm_velocity_vectors"]
       first_dim: -2
       last_dim: -1
 
     - _target_: torchrl.envs.ClipTransform
-      in_keys: ["scalars", "position_vectors", "velocity_vectors", "norm_position_vectors", "norm_velocity_vectors"]
-      low: -10.0
-      high: 10.0
+      in_keys: ["scalars", "norm_position_vectors", "norm_velocity_vectors"]
+      low: -20.0
+      high: 20.0
 
     - _target_: torchrl.envs.RewardSum
 
     - _target_: torchrl.envs.StepCounter
 
 collector:
-  frames_per_batch: 40_000  # 200 envs * 100 steps
-  total_frames: 10_000_000
+  frames_per_batch: 100_000  # 1000 envs * 100 steps
+  total_frames: 30_000_000
 
 latent_dim: &latent_dim 64  # ${algorithm.policy.hidden_sizes.0}
 
 algorithm:
   policy:
     contextual_std: True
-    post_fc: False  # NOTE: this is different from the original configuration
     hidden_sizes:
     - *latent_dim
-    - *latent_dim  # 128  # *latent_dim
+    - *latent_dim
     in_features:
       - scalars
-      - position_vectors
-      - velocity_vectors
       - norm_position_vectors
       - norm_velocity_vectors
+      - norm_position_vectors
+      - norm_velocity_vectors
+      - infos
     share_action_dim: True
+    action_dim: 3
     pyg_agent:
       data:
         base_data:
-          concat_input_vector: False # NOTE: this is different from the original configuration
           full_graph_obs: False
-          dist_as_pos: True  #  False  # True
-          training_noise: False
+          dist_as_pos: True  # True  # False
+          training_noise: True
           training_noise_std: 0.01
           output_mask_key: grippers
-        input_node_aux_dim: 3  # 3 vectors
+        input_node_aux_dim: 12
       model:
-        concat_global: False  # True
-        num_ori: 16
-        ponita_dim: 2
-        # only_upper_hemisphere: True
+        concat_global: False
   value:
     hidden_sizes:
       - *latent_dim
       - *latent_dim
     in_features:
       - scalars
-      - position_vectors
-      - velocity_vectors
       - norm_position_vectors
       - norm_velocity_vectors
+      - norm_position_vectors
+      - norm_velocity_vectors
+      - infos
     pyg_agent:
       data:
         base_data:
           full_graph_obs: True
-          dist_as_pos: False
+          dist_as_pos: Falseq
           training_noise: False
           output_mask_key: null
-        input_node_aux_dim: 9
+        input_node_aux_dim: 12
   objective:
     ppo_epochs: 5
-    mini_batch_size: 200
+    mini_batch_size: 1000
     critic_coef: 0.5
-    entropy_coef: 0.005
+    entropy_coef: 0.005 # 0.0005  # 0.001
     anneal_clip_epsilon: False
-    clip_grad_norm: True
+    clip_grad_norm: False
   projection:
     trust_region_coeff: 1.0
     mean_bound: 0.05 # 0.1

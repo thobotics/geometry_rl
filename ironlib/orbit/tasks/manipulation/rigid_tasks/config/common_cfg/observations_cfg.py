@@ -194,6 +194,22 @@ class FullObservationsCfg:
     infos: InfoCfg = InfoCfg()
 
 
+@configclass
+class NoObjectVelObservationCfg(FullObservationsCfg):
+    """Observation specifications for the MDP."""
+
+    @configclass
+    class VelocityVectorsCfg(ObsGroup):
+        grippers = FullSceneObservation.grippers_velocities()
+        grippers_angular = FullSceneObservation.grippers_angular_velocities()
+
+        def __post_init__(self):
+            self.enable_corruption = False
+            self.concatenate_terms = True
+
+    # observation groups
+    velocity_vectors: VelocityVectorsCfg = VelocityVectorsCfg()
+
 class FullSceneObservationTwoAgents(FullSceneObservation):
     @classmethod
     def grippers_positions(cls):

@@ -67,8 +67,8 @@ env:
 
     - _target_: torchrl.envs.ClipTransform
       in_keys: ["scalars", "position_vectors", "velocity_vectors", "norm_position_vectors", "norm_velocity_vectors"]
-      low: -20.0
-      high: 20.0
+      low: -10.0
+      high: 10.0
 
     - _target_: torchrl.envs.RewardSum
 

@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from omni.isaac.orbit.envs import RLTaskEnvCfg
 from omni.isaac.orbit.utils import configclass
-import random
 
 from ..common_cfg.actions_cfg import ActionsCfg
 from ..common_cfg.observations_cfg import FullObservationsCfg
-from ..common_cfg.rewards_cfg import HangingRewardsCfg
+from ..common_cfg.rewards_cfg import HangingRewardsCfg, ICLRHangingRewardsCfg
 from ..common_cfg.terminations_cfg import TerminationsCfg
 from ..common_cfg.event_cfg import HangingRandomizationCfg
 from ..common_cfg.scene_cfg import HangingSceneCfg, MultiAssetsClothSceneCfg
@@ -28,7 +27,7 @@ class ClothHangingEnvCfg(RLTaskEnvCfg):
     actions: ActionsCfg = ActionsCfg()
 
     # MDP settings
-    rewards: HangingRewardsCfg = HangingRewardsCfg()
+    rewards: ICLRHangingRewardsCfg = ICLRHangingRewardsCfg()
     terminations: TerminationsCfg = TerminationsCfg()
     randomization: HangingRandomizationCfg = HangingRandomizationCfg()
 

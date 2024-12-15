@@ -4,7 +4,7 @@ from omni.isaac.orbit.envs import RLTaskEnvCfg
 from omni.isaac.orbit.utils import configclass
 from omni.isaac.orbit.assets import AssetBaseCfg
 from ..common_cfg.scene_cfg import RigidSceneCfg
-from ..common_cfg.observations_cfg import FullObservationsCfg, FullSceneObservationTwoAgentsCfg
+from ..common_cfg.observations_cfg import FullObservationsCfg, NoObjectVelObservationCfg, FullSceneObservationTwoAgentsCfg
 from ..common_cfg.actions_cfg import (
     LinearWithYawRotationNoZActionsCfg,
     LinearWithYawRotationZActionsCfg,
@@ -35,7 +35,7 @@ class RigidSlidingEnvCfg(RLTaskEnvCfg):
     scene: RigidSceneCfg = RigidSceneCfg(num_envs=40, env_spacing=2.0, replicate_physics=False)
 
     # Basic settings
-    observations: FullObservationsCfg = FullObservationsCfg()
+    observations: NoObjectVelObservationCfg = NoObjectVelObservationCfg()
     actions: LinearWithYawRotationNoZActionsCfg = LinearWithYawRotationNoZActionsCfg()
 
     # MDP settings
