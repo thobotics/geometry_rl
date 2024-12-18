@@ -1,8 +1,6 @@
-from typing import Optional
-
 import torch
 import torch.nn as nn
-from torch.nn import LayerNorm, Linear, ReLU, Sequential
+from torch.nn import LayerNorm, Linear, ReLU
 from torch_geometric.data import Data
 from .mpnn import ProcessorLayer
 
@@ -25,7 +23,7 @@ class BaseGNN(torch.nn.Module):
     ):
         super(BaseGNN, self).__init__()
         """
-        MeshGraphNet model. This model is built upon Deepmind's 2021 paper.
+        Graph Networks model. This model is built upon Deepmind's 2021 paper.
         This model consists of three parts: (1) Preprocessing: encoder (2) Processor
         (3) postproccessing: decoder. Encoder has an edge and node decoders respectively.
         Processor has two processors for edge and node respectively. Note that edge attributes have to be
