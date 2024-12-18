@@ -1,11 +1,7 @@
 import torch
 import torch.nn as nn
-import torch as ch
 
-from ...utils.network_utils import get_activation, get_mlp, initialize_weights
-
-from con_mgn.models.mgn import MeshGraphNet
-
+from ironlib.modules.pyg_models.gnn.base_gnn import BaseGNN
 from ironlib.modules.pyg_data.base_data import BaseData
 
 
@@ -18,7 +14,7 @@ class GNNVFNet(nn.Module):
 
     def __init__(
         self,
-        mgn: MeshGraphNet,
+        gnn: BaseGNN,
         hyper_data: BaseData,
         init="orthogonal",
         hidden_sizes=(64, 64),
@@ -48,7 +44,7 @@ class GNNVFNet(nn.Module):
         self.actuator_vel_obs = actuator_vel_obs
 
         self.hyper_data = hyper_data
-        self.mgn = mgn
+        self.gnn = gnn
         self.final = nn.Linear(hidden_sizes[-1], 1)
 
     def forward(
@@ -75,7 +71,7 @@ class GNNVFNet(nn.Module):
 
         c_outs = []
         for i in range(n_rollouts):
-            c_out = self.mgn_forward(
+            c_out = self.gnn_forward(
                 *[arg[:, i] for arg in args],
                 train=train,
             )
@@ -89,7 +85,7 @@ class GNNVFNet(nn.Module):
 
         return values
 
-    def mgn_forward(
+    def gnn_forward(
         self,
         *args,
         train=True,
@@ -100,7 +96,7 @@ class GNNVFNet(nn.Module):
             train=train,
         )
 
-        return self.mgn.one_step(
+        return self.gnn.one_step(
             data,
             input_vector,
         )

@@ -168,7 +168,6 @@ RUN echo "# Check and change folder ownership script" >> ${HOME}/.bashrc && \
 RUN ${ORBIT_PATH}/orbit.sh -p -m pip install -U pip setuptools
 RUN ${ORBIT_PATH}/orbit.sh -p -m pip install -r ${WORKSPACE}/ironlib/requirements.txt
 RUN cd ${WORKSPACE}/others/ITPAL/cpp && CONDA_PREFIX="" ${ORBIT_PATH}/orbit.sh -p setup.py install
-RUN cd ${WORKSPACE}/others/ContinuousMeshGraphNets && ${ORBIT_PATH}/orbit.sh -p -m pip install -e .
 
 # make working directory as the ironlib directory
 # this is the default directory when the container is run

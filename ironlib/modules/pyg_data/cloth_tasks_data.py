@@ -5,7 +5,7 @@ import torch
 import torch_geometric
 from torch_geometric.data import Data, HeteroData
 
-from con_mgn.data.transforms import (
+from .transforms import (
     HeteroNodeCategorical,
     HeteroEdgeCategorical,
     HeteroCartesian,

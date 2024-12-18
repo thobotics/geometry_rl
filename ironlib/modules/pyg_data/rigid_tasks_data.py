@@ -5,7 +5,7 @@ import torch
 import torch_geometric
 from torch_geometric.data import Data, HeteroData
 
-from con_mgn.data.transforms import (
+from .transforms import (
     HeteroNodeCategorical,
     HeteroEdgeCategorical,
     HeteroCartesian,
@@ -14,7 +14,7 @@ from con_mgn.data.transforms import (
 from torch_geometric.transforms import Compose
 from dataclasses import dataclass
 from .base_data import BaseData
-from con_mgn.utils.common_utils import noise_like
+from .utils import noise_like
 
 
 class NodeType(str, enum.Enum):

@@ -1,26 +1,22 @@
-from abc import ABC, abstractmethod
-from typing import Tuple, Union, Dict
+from abc import abstractmethod
+from typing import Dict
 
 import torch
 import torch as ch
-from torch_geometric.data import Data
 
-from ..value.vf_net import VFNet
-from .abstract_gaussian_policy import (
-    AbstractGaussianPolicy,
-)
-from ...utils.network_utils import get_activation, get_mlp, initialize_weights
+from ..value.gnn_vf_net import GNNVFNet
+
+from .abstract_gaussian_policy import AbstractGaussianPolicy
 from ...utils.torch_utils import inverse_softplus
 
-from con_mgn.models.mgn import MeshGraphNet
-
+from ironlib.modules.pyg_models.gnn.base_gnn import BaseGNN
 from ironlib.modules.pyg_data.base_data import BaseData
 
 
 class AbstractGNNGaussianPolicy(AbstractGaussianPolicy):
     def __init__(
         self,
-        mgn: MeshGraphNet,
+        gnn: BaseGNN,
         hyper_data: BaseData,
         action_dim,
         num_actuators,
@@ -33,7 +29,7 @@ class AbstractGNNGaussianPolicy(AbstractGaussianPolicy):
         init_std: float = 1.0,
         use_tanh_mean: bool = False,
         share_weights=False,
-        vf_model: VFNet = None,
+        vf_model: GNNVFNet = None,
         minimal_std: float = 1e-5,
         scale: float = 1e-4,
         gain: float = 0.01,
@@ -56,7 +52,7 @@ class AbstractGNNGaussianPolicy(AbstractGaussianPolicy):
         self.diag_activation = torch.nn.Softplus()
         self.diag_activation_inv = inverse_softplus
 
-        device = mgn.device
+        device = gnn.device
 
         if isinstance(action_dim, list):
             self.action_dim = action_dim
@@ -90,13 +86,13 @@ class AbstractGNNGaussianPolicy(AbstractGaussianPolicy):
 
         self.num_actuators = num_actuators
         self.hyper_data = hyper_data
-        self.mgn = mgn
+        self.gnn = gnn
 
     @abstractmethod
     def forward(self, x, infos: Dict, train=True):
         pass
 
-    def mgn_forward(
+    def gnn_forward(
         self,
         *args,
         train=True,
@@ -107,7 +103,7 @@ class AbstractGNNGaussianPolicy(AbstractGaussianPolicy):
             train=train,
         )
 
-        return self.mgn.one_step(
+        return self.gnn.one_step(
             data,
             input_vector,
         )

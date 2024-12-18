@@ -4,8 +4,8 @@ from typing import Tuple, Union
 import torch as ch
 import torch.nn as nn
 
-from ..value.vf_net import VFNet
-from ...utils.network_utils import get_activation, get_mlp, initialize_weights
+from ..value.gnn_vf_net import GNNVFNet
+from ...utils.network_utils import get_mlp, initialize_weights
 from ...utils.torch_utils import inverse_softplus
 
 
@@ -23,7 +23,7 @@ class AbstractGaussianPolicy(nn.Module, ABC):
         init_std: float = 1.0,
         use_tanh_mean: bool = False,
         share_weights=False,
-        vf_model: VFNet = None,
+        vf_model: GNNVFNet = None,
         minimal_std: float = 1e-5,
         scale: float = 1e-4,
         gain: float = 0.01,

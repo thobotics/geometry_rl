@@ -17,7 +17,7 @@ services:
         - IRONLIB_USER_PATH=${IRONLIB_USER_PATH}
         - OTHERS_USER_PATH=${OTHERS_USER_PATH}
         - USER_WORKSPACE=${USER_WORKSPACE}
-    image: ironlib:neurips
+    image: ironlib:iclr
     container_name: ironlib
     env_file:
       - .env

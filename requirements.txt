@@ -1,10 +1,21 @@
+torch @ https://download.pytorch.org/whl/cu118/torch-2.1.0%2Bcu118-cp310-cp310-linux_x86_64.whl
 tensordict==0.3.1
 torchrl==0.3.1
 gymnasium==0.29.1
-hydra-core
-hydra-colorlog
-omegaconf
+hydra-core==1.1.0
+hydra-colorlog==1.1.0
+omegaconf==2.1.0
 einops
 ipykernel
 pyLasaDataset
 rliable
+tqdm==4.61.2
+torch-geometric==2.3.1
+torch-spline-conv @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_spline_conv-1.2.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl
+torch-cluster @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_cluster-1.6.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl
+torch-scatter @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_scatter-2.1.2%2Bpt21cu118-cp310-cp310-linux_x86_64.whl
+torch-sparse @ https://data.pyg.org/whl/torch-2.1.0%2Bcu118/torch_sparse-0.6.18%2Bpt21cu118-cp310-cp310-linux_x86_64.whl
+wandb==0.16.4
+torchtyping==0.1.4
+pillow==9.5.0
+matplotlib==3.7.1

@@ -1,19 +1,12 @@
-from typing import List, Dict
+from typing import Dict
 
 import torch
-import torch.nn.functional as F
-from torch import Tensor
-from torch.nn import Sequential, Linear, ReLU
+from torch.nn import Linear, ReLU
 
 
-import torch_geometric.transforms as T
-from torch_geometric.datasets import ModelNet
-from torch_geometric.loader import DataLoader
-from torch_geometric.data import Data, HeteroData
-from torch_geometric.nn import MLP, fps, global_max_pool, radius, MessagePassing, GCNConv, GATv2Conv
-from torch_geometric.utils import add_self_loops
-
-from con_mgn.models.networks.mpnn import ProcessorLayer
+from torch_geometric.data import HeteroData
+from torch_geometric.nn import global_max_pool
+from .gnn.mpnn import ProcessorLayer
 
 
 class GCN(torch.nn.Module):

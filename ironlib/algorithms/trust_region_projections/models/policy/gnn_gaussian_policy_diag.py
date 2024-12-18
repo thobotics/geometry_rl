@@ -1,12 +1,10 @@
-from typing import Tuple, Dict
+from typing import Tuple
 
 import numpy as np
 import torch as ch
 import torch.nn as nn
 
-from .abstract_gnn_gaussian_policy import (
-    AbstractGNNGaussianPolicy,
-)
+from .abstract_gnn_gaussian_policy import AbstractGNNGaussianPolicy
 from ...utils.network_utils import initialize_weights
 
 
@@ -34,7 +32,7 @@ class GNNGaussianPolicyDiag(AbstractGNNGaussianPolicy):
 
         batch_size = args[0].shape[0]
 
-        a_out = self.mgn_forward(
+        a_out = self.gnn_forward(
             *args,
             train=train,
         )

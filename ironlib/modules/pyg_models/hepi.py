@@ -1,18 +1,16 @@
-from typing import Dict, List, Tuple
+from typing import Dict
 
 import torch
 import torch.nn as nn
-from con_mgn.models.mgn import MeshGraphNet
-from torch_geometric.data import Data, HeteroData
+from torch_geometric.data import HeteroData
 
-from torch_geometric.transforms import Compose
-
+from .gnn.base_gnn import BaseGNN
 from .ponita.ponita import GridGenerator, PolynomialFeatures
 from .ponita.hetero_fiber_conv import HeteroFiberConv
 from .ponita.utils.to_from_sphere import scalar_to_sphere, vec_to_sphere
 
 
-class HEPi(MeshGraphNet):
+class HEPi(BaseGNN):
     def __init__(
         self,
         input_dim_node,
@@ -41,7 +39,7 @@ class HEPi(MeshGraphNet):
         only_upper_hemisphere=False,
         **ignored,
     ):
-        super(MeshGraphNet, self).__init__()
+        super(BaseGNN, self).__init__()
 
         self.input_dim_node = input_dim_node
         self.output_dim = output_dim

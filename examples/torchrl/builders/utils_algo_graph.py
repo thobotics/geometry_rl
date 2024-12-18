@@ -81,7 +81,7 @@ def _make_pyg_agent(
 
     model_cfg = config["model"]
 
-    mgn = _build_pyg_model(
+    gnn = _build_pyg_model(
         proof_environment,
         model_cfg,
         input_dim_node,
@@ -92,7 +92,7 @@ def _make_pyg_agent(
         device,
     )
 
-    return mgn, base_data
+    return gnn, base_data
 
 
 def _parse_composite_keys(keys):
@@ -110,7 +110,7 @@ def _make_probabilistic_actor(
     num_outputs,
     distribution_class,
     distribution_kwargs,
-    mgn,
+    gnn,
     hyper_data,
     proof_environment,
     projection_type="ppo",
@@ -137,7 +137,7 @@ def _make_probabilistic_actor(
         action_dim=num_outputs,
         num_actuators=num_actuators,  # 3 DoF per actuator
         vf_model=None,
-        mgn=mgn,
+        gnn=gnn,
         hyper_data=hyper_data,
         **kwargs,
     )
@@ -163,7 +163,7 @@ def _make_probabilistic_actor(
 def _make_value_module(
     critic_type,
     critic_in_features,
-    mgn,
+    gnn,
     hyper_data,
     proof_environment,
     **kwargs,
@@ -179,7 +179,7 @@ def _make_value_module(
         value_net = get_critic(
             critic_type=critic_type,
             dim=value_in_features,
-            mgn=mgn,
+            gnn=gnn,
             hyper_data=hyper_data,
             **kwargs,
         )
@@ -223,7 +223,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
         # Unbounded action space
         distribution_kwargs = {}
 
-    mgn, hyper_data = _make_pyg_agent(
+    gnn, hyper_data = _make_pyg_agent(
         proof_environment=proof_environment,
         config=config["policy"].pop("pyg_agent"),
         device=proof_environment.device,
@@ -235,7 +235,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
         num_outputs,
         distribution_class,
         distribution_kwargs,
-        mgn,
+        gnn,
         hyper_data,
         proof_environment,
         config["projection"]["proj_type"],
@@ -257,7 +257,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
         )
 
     if critic_type == "gnn":
-        mgn, hyper_data = _make_pyg_agent(
+        gnn, hyper_data = _make_pyg_agent(
             proof_environment=proof_environment,
             config=config["value"].pop("pyg_agent"),
             device=proof_environment.device,
@@ -267,7 +267,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
     value_module = _make_value_module(
         critic_type,
         critic_in_features,
-        mgn,
+        gnn,
         hyper_data,
         proof_environment,
         **config["value"],
