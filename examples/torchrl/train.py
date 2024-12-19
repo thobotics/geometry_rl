@@ -109,10 +109,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
             raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_path}")
 
     # Create collector
-    if AgentBuilder.is_bb_env(cfg.env.name):
-        split_trajs = True
-    else:
-        split_trajs = False
+    split_trajs = False
 
     collector = SyncDataCollector(
         create_env_fn=env,

@@ -5,7 +5,6 @@ import torch
 
 from torchrl.envs import TransformedEnv
 from ironlib.orbit.wrappers.torchrl import OrbitTorchRLEnv
-from ironlib.orbit.wrappers.bb_torchrl import OrbitTorchRLBlackBoxEnv
 
 import ast
 from omegaconf import OmegaConf
@@ -25,10 +24,6 @@ def tuples_resolver(s: str) -> list:
 
 # Register the resolver with Hydra
 OmegaConf.register_new_resolver("tuples", tuples_resolver)
-
-
-def is_bb_env(env_name):
-    return env_name.startswith(("gym_ProDMP", "gym_DMP", "gym_ProMP"))
 
 
 class orbit_info_dict_reader:
@@ -69,10 +64,7 @@ def make_orbit_env(
 ):
     transform_config = env_config.pop("transform", None)
 
-    if is_bb_env(env_name):
-        orbit_env_cls = OrbitTorchRLBlackBoxEnv
-    else:
-        orbit_env_cls = OrbitTorchRLEnv
+    orbit_env_cls = OrbitTorchRLEnv
 
     env = orbit_env_cls(
         env_name,

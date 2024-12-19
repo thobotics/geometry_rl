@@ -80,10 +80,6 @@ class AgentBuilder:
         return env, actor, critic, projection, loss_module
 
     @staticmethod
-    def is_bb_env(env_name):
-        return is_bb_env(env_name)
-
-    @staticmethod
     def is_graph_env(env_name):
         return "graph" in env_name.lower().split("-")
 

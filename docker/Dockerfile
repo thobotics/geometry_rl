@@ -166,8 +166,13 @@ RUN echo "# Check and change folder ownership script" >> ${HOME}/.bashrc && \
 ###
 
 RUN ${ORBIT_PATH}/orbit.sh -p -m pip install -U pip setuptools
-RUN ${ORBIT_PATH}/orbit.sh -p -m pip install -r ${WORKSPACE}/ironlib/requirements.txt
 RUN cd ${WORKSPACE}/others/ITPAL/cpp && CONDA_PREFIX="" ${ORBIT_PATH}/orbit.sh -p setup.py install
+RUN ${ORBIT_PATH}/orbit.sh -p -m pip install \
+    pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv \
+    -f https://data.pyg.org/whl/torch-2.2.0+cu121.html
+RUN --mount=type=cache,target=${DOCKER_USER_HOME}/.cache/pip \
+    ${ORBIT_PATH}/orbit.sh -p -m pip install -r ${WORKSPACE}/ironlib/requirements.txt \
+    && ${ORBIT_PATH}/orbit.sh -p -m pip install typing_extensions==4.12.2
 
 # make working directory as the ironlib directory
 # this is the default directory when the container is run
