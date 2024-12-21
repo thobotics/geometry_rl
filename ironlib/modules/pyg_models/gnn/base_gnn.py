@@ -67,9 +67,6 @@ class BaseGNN(torch.nn.Module):
         node_encoder.append(Linear(hidden_dim, latent_dim))
         node_encoder.append(LayerNorm(latent_dim))
         node_encoder = nn.Sequential(*node_encoder)
-
-        # node_encoder = nn.Linear(input_dim_node, latent_dim)
-
         return node_encoder
 
     def _create_edge_encoder(
@@ -83,9 +80,6 @@ class BaseGNN(torch.nn.Module):
         edge_encoder.append(Linear(hidden_dim, latent_dim))
         edge_encoder.append(LayerNorm(latent_dim))
         edge_encoder = nn.Sequential(*edge_encoder)
-        
-        # edge_encoder = nn.Linear(input_dim_edge, latent_dim)
-
         return edge_encoder
 
     def _create_processor(self, latent_dim, num_messages=1):

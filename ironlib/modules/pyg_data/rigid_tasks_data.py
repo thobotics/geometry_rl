@@ -147,17 +147,6 @@ class RigidTasksData(BaseData):
             key_name = self.observation_names["infos"][i]
             inputs_dict["infos"][key_name] = info
 
-        # for node_type in [NodeType.PARTICLES, NodeType.TARGET]:
-        #     position_vectors = inputs_dict["position_vectors"][node_type]
-        #     mask = (
-        #         torch.arange(position_vectors.size(1), device=scalars.device).unsqueeze(0)
-        #         < inputs_dict["infos"]["object_num_points"]
-        #     )
-        #     mask = mask.unsqueeze(-1).expand_as(position_vectors)
-
-        #     inputs_dict["position_vectors"][node_type] *= mask
-        #     inputs_dict["norm_position_vectors"][node_type] *= mask
-
         return inputs_dict
 
     def construct_input_vector(
@@ -227,9 +216,6 @@ class RigidTasksData(BaseData):
                 velocity = torch.zeros_like(data[node_type].norm_pos)
                 angular_velocity = torch.zeros_like(data[node_type].norm_pos)
 
-            # velocity = torch.zeros_like(data[node_type].norm_pos)
-            # angular_velocity = torch.zeros_like(data[node_type].norm_pos)
-
             scalars = one_hot_type
             vectors = torch.cat([pos_vec, corresponding_pos, velocity, angular_velocity], dim=1)
             input_vector = torch.cat([scalars, vectors], dim=1)
@@ -296,23 +282,6 @@ class RigidTasksData(BaseData):
             actuators = position_vectors[NodeType.ACTUATOR][i]
             points = position_vectors[NodeType.PARTICLES][i]
 
-            # particles_internal_particles_edges = []
-            # for j in range(points.shape[0]):
-            #     for k in range(points.shape[0]):
-            # for j in range(num_points[i].item()):
-            #     for k in range(num_points[i].item()):
-            #         if j != k:
-            #             particles_internal_particles_edges.append([j, k])
-            # particles_internal_particles_edges = torch.tensor(
-            #     particles_internal_particles_edges, device=device, dtype=torch.long
-            # ).T
-            # hetero_data[EdgeType.PARTICLES_INTERNAL_PARTICLES].edge_index = particles_internal_particles_edges
-            # hetero_data[EdgeType.PARTICLES_INTERNAL_PARTICLES].edge_index = torch.tensor(
-            #     [], device=device, dtype=torch.long
-            # ).reshape(2, 0)
-            # hetero_data[EdgeType.PARTICLES_INTERNAL_PARTICLES].edge_index = (
-            #     infos["object_geometry_edges"][i].reshape(2, -1)[:, : num_edges[i]].long()
-            # )
             hetero_data[EdgeType.PARTICLES_INTERNAL_PARTICLES].edge_index = torch_geometric.nn.knn_graph(
                 points[: num_points[i]], k=self.knn_k
             )
@@ -339,13 +308,9 @@ class RigidTasksData(BaseData):
                     knn_edges[1] = k
                     points_actuator_edges.append(knn_edges)
                 points_actuator_edges = torch.cat(points_actuator_edges, dim=1)
-                # hetero_data[EdgeType.PARTICLES_TASK_ACTUATOR].edge_index = torch_geometric.nn.knn(
-                #     points[: num_points[i]], actuators, k=self.knn_to_actuators_k
-                # ).flip(0)
             else:
                 points_actuator_edges = []
                 for j in range(num_points[i].item()):
-                    # for j in range(points.shape[0]):
                     for k in range(actuators.shape[0]):
                         points_actuator_edges.append([j, k])
                 points_actuator_edges = torch.tensor(points_actuator_edges, device=device, dtype=torch.long).T

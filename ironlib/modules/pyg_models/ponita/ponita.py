@@ -241,7 +241,7 @@ class Ponita(nn.Module):
         widening_factor=4,
         layer_scale=None,
         task_level="graph",
-        multiple_readouts=True,
+        multiple_readouts=False,
         last_feature_conditioning=False,
         attention=False,
         only_upper_hemisphere=False,
@@ -341,30 +341,11 @@ class Ponita(nn.Module):
 
         # Initial feature embeding
         x = self.x_embedder(x)
-        # x = x.unsqueeze(-2).repeat_interleave(ori_grid.shape[-2], dim=-2)  # [B*N,O,C]
 
         # Interaction + readout layers
-        readouts = []
-        for interaction_layer, readout_layer in zip(self.interaction_layers, self.read_out_layers):
+        for interaction_layer in self.interaction_layers:
             x = interaction_layer(x, kernel_basis, fiber_kernel_basis, edge_index)
-            # if readout_layer is not None:
-            #     readouts.append(readout_layer(x))
         return x
-        # readout = sum(readouts) / len(readouts)
-
-        # # Read out the scalar and vector part of the output
-        # readout_scalar, readout_vec = torch.split(readout, [self.output_dim, self.output_dim_vec], dim=-1)
-
-        # # Read out scalar and vector predictions
-        # output_scalar = readout_scalar.mean(dim=-2)  # [B*N,C]
-        # output_vector = torch.einsum("boc,od->bcd", readout_vec, ori_grid) / ori_grid.shape[-2]  # [B*N,C,3]
-
-        # if self.global_pooling:
-        #     output_scalar = scatter_add(src=output_scalar, index=batch, dim_size=batch.max().item() + 1)
-        #     output_vector = scatter_add(src=output_vector, index=batch, dim_size=batch.max().item() + 1)
-
-        # # Return predictions
-        # return output_scalar, output_vector
 
 
 def main():
@@ -413,8 +394,6 @@ def main():
     )
     model = model.to(device)
 
-    # input_sphere = scalar_to_sphere(input.reshape(-1, dim), model.ori_grid)
-    # input_sphere = input_sphere.reshape(input.shape[0], input.shape[1], num_ori, -1)
     scalar_input_sphere = scalar_to_sphere(input_scalar, model.ori_grid)
     scalar_input_sphere = scalar_input_sphere.permute(0, 2, 1).unsqueeze(-1)
     vec_input_sphere = vec_to_sphere(input_vec, model.ori_grid)

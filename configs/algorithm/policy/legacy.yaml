@@ -1,7 +1,0 @@
-policy_type: "diag"
-distribution_class: torch.distributions.MultivariateNormal
-init: "orthogonal"
-hidden_sizes:
-- 64
-- 64
-activation: elu # for legacy network

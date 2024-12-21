@@ -88,12 +88,6 @@ class RopeTasksData(BaseData):
 
         self.node_type_list = [name for name in NodeType]
 
-        # node_type_list = [name for name in NodeType if name != NodeType.TARGET_GEOMETRY]
-        # if self.full_graph_obs:
-        #     self.node_type_list = node_type_list
-        # else:
-        #     self.node_type_list = [name for name in node_type_list if name != NodeType.PARTICLES]
-
     def _preprocess_input(
         self,
         scalars: torch.Tensor,
@@ -254,38 +248,8 @@ class RopeTasksData(BaseData):
             actuators = position_vectors[NodeType.ACTUATOR][i]
             links = position_vectors[NodeType.LINKS][i]
 
-            links_internal_links_edges = []
-
-            # for j in range(0, links.shape[0] - 1, 1):
-            #     links_internal_links_edges.append([j, j + 1])
-
-            # for j in range(0, links.shape[0] - 2, 1):
-            #     links_internal_links_edges.append([j, j + 2])
-            # links_internal_links_edges.append([links.shape[0] - 1, links.shape[0] - 2])
-
-            # for j in range(0, links.shape[0] - 4, 1):
-            #     links_internal_links_edges.append([j, j + 4])
-            # links_internal_links_edges.append([links.shape[0] - 1, links.shape[0] - 4])
-
-            # for j in range(0, links.shape[0] - 8, 1):
-            #     links_internal_links_edges.append([j, j + 8])
-            # links_internal_links_edges.append([links.shape[0] - 1, links.shape[0] - 8])
-
-            # for j in range(0, links.shape[0] - 20, 1):
-            #     links_internal_links_edges.append([j, j + 20])
-            # links_internal_links_edges.append([links.shape[0] - 1, links.shape[0] - 20])
-
-            # links_internal_links_edges = torch.tensor(links_internal_links_edges, device=device, dtype=torch.long).T
-            # links_internal_links_edges = torch.cat(
-            #     [links_internal_links_edges, links_internal_links_edges.flip(0)], dim=1
-            # )
-
             links_internal_links_edges = torch_geometric.nn.knn_graph(links, k=self.knn_k)
             hetero_data[EdgeType.LINKS_INTERNAL_LINKS].edge_index = links_internal_links_edges
-
-            # hetero_data[EdgeType.LINKS_INTERNAL_LINKS].edge_index = torch.tensor(
-            #     [], device=device, dtype=torch.long
-            # ).reshape(2, 0)
 
             actuator_actuator_edges = []
             for j in range(actuators.shape[0]):

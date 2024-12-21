@@ -82,9 +82,6 @@ class HEPi(BaseGNN):
             act_fn,
         )
 
-        # self.node_encoder = self._create_node_encoder(
-        #     self.input_dim_node, hidden_dim, latent_dim, node_encoder_layers
-        # ).to(device)
         self.node_encoder = nn.Linear(self.input_dim_node, latent_dim, False)
 
         self.processor = nn.ModuleList()
@@ -100,9 +97,6 @@ class HEPi(BaseGNN):
 
             self.processor.append(HeteroFiberConv(level_processor))
 
-        # self.decoder = self._create_decoder(
-        #     latent_dim, hidden_dim, output_dim + output_dim_vec, node_decoder_layers
-        # ).to(device)
         input_decoder_dim = latent_dim * 2 if concat_global else latent_dim
         self.decoder = nn.Linear(input_decoder_dim, output_dim + output_dim_vec)
 
@@ -184,7 +178,6 @@ class HEPi(BaseGNN):
         latent = latent.mean(dim=-2)
         out_scalar = out_scalar.mean(dim=-2)
         out_vec = torch.einsum("b o c, o d -> b c d", out_vec, self.ori_grid) / self.num_ori
-        # out_vec = torch.tanh(out_vec)
         out = out_vec * out_scalar.unsqueeze(-1)
         if self.dim == 2:
             out = torch.cat([out, torch.zeros_like(out[..., :1])], dim=-1)

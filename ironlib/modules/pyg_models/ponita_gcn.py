@@ -1,13 +1,8 @@
-from typing import List, Dict
+from typing import Dict
 
 import torch
-import torch.nn.functional as F
-from torch import Tensor
-from torch.nn import Sequential, Linear, ReLU
-
-
-import torch_geometric.transforms as T
-from torch_geometric.data import Data, HeteroData
+from torch.nn import Linear
+from torch_geometric.data import HeteroData
 
 from .ponita.ponita import Ponita
 from .ponita.utils.to_from_sphere import scalar_to_sphere, vec_to_sphere
@@ -41,7 +36,7 @@ class PonitaGCN(torch.nn.Module):
         self.output_dim_vec = output_dim_vec
 
         self.ponita = Ponita(
-            input_dim=input_dim_node,  # 4 + 3,  # 4 scalars and 3 vectors
+            input_dim=input_dim_node,
             dim=ponita_dim,
             hidden_dim=hidden_dim,
             output_dim=output_dim,
@@ -102,7 +97,6 @@ class PonitaGCN(torch.nn.Module):
             x_vec_list = []
             x_full_list = []
             pos_list = []
-            edge_attr_list = []
 
             batch_size = len(graph)
             for node_type in graph.node_types:
@@ -123,13 +117,6 @@ class PonitaGCN(torch.nn.Module):
             scalar = torch.cat(x_scalar_list, dim=1).to(self.device)
             vector = torch.cat(x_vec_list, dim=1).to(self.device)
             pos = torch.cat(pos_list, dim=1).to(self.device)
-
-            # for edge_type in graph.edge_types:
-            #     edge_attr = graph[edge_type].edge_attr
-            #     edge_attr_list.append(edge_attr.reshape(batch_size, -1, edge_attr.shape[-1]))
-
-            # edge_attr = torch.cat(edge_attr_list, dim=1).to(self.device)  # (batch_size, num_edges, input_dim_edge)
-            # edge_attr = edge_attr.reshape(-1, edge_attr.shape[-1])  # (batch_size * num_edges, input_dim_edge)
 
             edge_index = self.homogeneous_edge_index(graph)
             batch = self.homogeneous_batch(graph)

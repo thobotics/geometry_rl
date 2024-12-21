@@ -1,5 +1,5 @@
 defaults:
-  - policy: legacy
+  - policy: default
   - value: default
   - projection: kl
   - objective: trpl

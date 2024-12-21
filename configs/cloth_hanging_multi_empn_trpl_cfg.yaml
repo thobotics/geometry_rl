@@ -15,10 +15,10 @@ defaults:
   
   # specify here what to override for default configurations, e.g.:
   - override env/transform: normalize_3d_and_clip
-  - override algorithm/policy: legacy_gnn
+  - override algorithm/policy: default
   - override algorithm/policy/pyg_agent/data: ../../../pyg_agent/data/cloth_tasks
   - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/ponita_gcn
-  - override algorithm/value: legacy_gnn
+  - override algorithm/value: default
   - override algorithm/value/pyg_agent/data: ../../../pyg_agent/data/cloth_tasks
   - override algorithm/value/pyg_agent/model: ../../../pyg_agent/model/deepsets
   - _self_
