@@ -37,7 +37,7 @@ ARG USER_WORKSPACE
 ENV LANG=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 ENV WORKSPACE=/workspace
-ENV IRONLIB_PATH=/workspace/ironlib
+ENV GEOMETRYRL_PATH=/workspace/geometry_rl
 ENV ORBIT_PATH=/workspace/orbit
 
 # install Bazel
@@ -95,16 +95,15 @@ RUN git lfs install
 
 # Note: All copies happen here, as the chown happens just right after this
 COPY ${USER_WORKSPACE}/orbit/ ${ORBIT_PATH}
-COPY ${USER_WORKSPACE}/ironlib/requirements.txt ${WORKSPACE}/ironlib/requirements.txt
+COPY ${USER_WORKSPACE}/geometry_rl/requirements.txt ${WORKSPACE}/geometry_rl/requirements.txt
 COPY ${USER_WORKSPACE}/others/ITPAL ${WORKSPACE}/others/ITPAL
-COPY ${USER_WORKSPACE}/others/ContinuousMeshGraphNets ${WORKSPACE}/others/ContinuousMeshGraphNets
 
 # Change ownership of the workspace directory
 RUN chown -R ${DOCKER_USER_NAME}:${DOCKER_USER_NAME} ${WORKSPACE}
 
 # Set up a symbolic link between the installed Isaac Sim root folder and _isaac_sim in the orbit directory
 RUN ln -sf ${ISAACSIM_PATH} ${ORBIT_PATH}/_isaac_sim
-RUN cp -P ${ORBIT_PATH}/_isaac_sim ${IRONLIB_PATH}/
+RUN cp -P ${ORBIT_PATH}/_isaac_sim ${GEOMETRYRL_PATH}/
 
 # for singularity usage, have to create the directories that will binded
 RUN mkdir -p ${ISAACSIM_PATH}/kit/cache && \
@@ -171,9 +170,9 @@ RUN ${ORBIT_PATH}/orbit.sh -p -m pip install \
     pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv \
     -f https://data.pyg.org/whl/torch-2.2.0+cu121.html
 RUN --mount=type=cache,target=${DOCKER_USER_HOME}/.cache/pip \
-    ${ORBIT_PATH}/orbit.sh -p -m pip install -r ${WORKSPACE}/ironlib/requirements.txt \
+    ${ORBIT_PATH}/orbit.sh -p -m pip install -r ${WORKSPACE}/geometry_rl/requirements.txt \
     && ${ORBIT_PATH}/orbit.sh -p -m pip install typing_extensions==4.12.2
 
-# make working directory as the ironlib directory
+# make working directory as the geometry_rl directory
 # this is the default directory when the container is run
-WORKDIR ${IRONLIB_PATH}
+WORKDIR ${GEOMETRYRL_PATH}

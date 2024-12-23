@@ -4,7 +4,7 @@ from tensordict import TensorDictBase
 import torch
 
 from torchrl.envs import TransformedEnv
-from ironlib.orbit.wrappers.torchrl import OrbitTorchRLEnv
+from geometry_rl.orbit.wrappers.torchrl import OrbitTorchRLEnv
 
 import ast
 from omegaconf import OmegaConf

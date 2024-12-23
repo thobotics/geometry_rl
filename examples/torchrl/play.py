@@ -41,7 +41,7 @@ def parse_args():
     parser.add_argument(
         "--log_dir",
         type=str,
-        default="logs/ironlib",
+        default="logs/geometry_rl",
         help="Path to the Hydra configuration directory.",
     )
     parser.add_argument(
@@ -111,7 +111,7 @@ def main(
 ):  # noqa: F821
     """Start Isaac Sim Simulator first."""
     global simulation_app
-    from ironlib.orbit.utils.omniverse_app import launch_app  # noqa
+    from geometry_rl.orbit.utils.omniverse_app import launch_app  # noqa
 
     simulation_app = launch_app(config=OmegaConf.to_container(cfg.simulator, resolve=True))
 
@@ -126,7 +126,7 @@ def main(
     torch.backends.cudnn.benchmark = False
 
     from torchrl.envs import ExplorationType, set_exploration_type
-    from ironlib.orbit.utils.tensordict import (
+    from geometry_rl.orbit.utils.tensordict import (
         recursively_merge_dict,
         recursively_share_memory,
     )

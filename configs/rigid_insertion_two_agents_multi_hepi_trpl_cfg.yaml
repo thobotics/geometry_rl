@@ -44,11 +44,11 @@ env:
   num_envs: 1000
   warmup_steps: 5
   transform:
-    - _target_: ironlib.torchrl.envs.ReshapeTransform
+    - _target_: geometry_rl.torchrl.envs.ReshapeTransform
       in_keys: ["position_vectors", "velocity_vectors"]
       out_shape: [-1, 3]  # reshape to preserve geometry information
 
-    - _target_: ironlib.torchrl.envs.NDVecNorm
+    - _target_: geometry_rl.torchrl.envs.NDVecNorm
       in_keys: ["position_vectors", "velocity_vectors"]
       out_keys: ["norm_position_vectors", "norm_velocity_vectors"]
       shapes: [3, 3]

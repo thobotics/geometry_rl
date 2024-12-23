@@ -1,4 +1,4 @@
-_target_: ironlib.modules.pyg_models.deepsets.DeepSets
+_target_: geometry_rl.modules.pyg_models.deepsets.DeepSets
 
 hidden_dim: 64
 output_dim: 64

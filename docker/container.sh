@@ -80,15 +80,15 @@ case $mode in
         popd > /dev/null 2>&1
         ;;
     enter)
-        echo "[INFO] Entering the existing 'ironlib' container in a bash session..."
+        echo "[INFO] Entering the existing 'geometry_rl' container in a bash session..."
         pushd ${SCRIPT_DIR} > /dev/null 2>&1
-        docker exec --interactive --tty ironlib bash
+        docker exec --interactive --tty geometry_rl bash
         popd > /dev/null 2>&1
         ;;
     copy)
         # check if the container is running
-        if [ "$( docker container inspect -f '{{.State.Status}}' ironlib 2> /dev/null)" != "running" ]; then
-            echo "[Error] The 'ironlib' container is not running! It must be running to copy files from it." >&2;
+        if [ "$( docker container inspect -f '{{.State.Status}}' geometry_rl 2> /dev/null)" != "running" ]; then
+            echo "[Error] The 'geometry_rl' container is not running! It must be running to copy files from it." >&2;
             exit 1
         fi
         echo "[INFO] Copying artifacts from the 'orbit' container..."

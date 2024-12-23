@@ -116,7 +116,7 @@ def _make_probabilistic_actor(
     projection_type="ppo",
     **kwargs,
 ):
-    from ironlib.algorithms.trust_region_projections.models.policy.policy_factory import (
+    from geometry_rl.algorithms.trust_region_projections.models.policy.policy_factory import (
         get_policy_network,
     )
 
@@ -168,7 +168,7 @@ def _make_value_module(
     proof_environment,
     **kwargs,
 ):
-    from ironlib.algorithms.trust_region_projections.models.value.critic_factory import (
+    from geometry_rl.algorithms.trust_region_projections.models.value.critic_factory import (
         get_critic,
     )
 
@@ -244,7 +244,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
     projection = None
 
     if config["name"] == "trpl":
-        from ironlib.algorithms.trust_region_projections.projections.projection_factory import (
+        from geometry_rl.algorithms.trust_region_projections.projections.projection_factory import (
             get_projection_layer,
         )
 

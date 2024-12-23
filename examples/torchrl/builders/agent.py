@@ -1,9 +1,9 @@
 from pathlib import Path
 from .utils_env import *
 from torchrl.objectives import ClipPPOLoss, KLPENPPOLoss
-from ironlib.algorithms.trust_region_projections.objectives.trpl import TRPLLoss
-from ironlib.algorithms.trust_region_projections.objectives.ppo import ClipPPOLoss2
-from ironlib.orbit.utils.tensordict import extract_tensors_from_a_dict
+from geometry_rl.algorithms.trust_region_projections.objectives.trpl import TRPLLoss
+from geometry_rl.algorithms.trust_region_projections.objectives.ppo import ClipPPOLoss2
+from geometry_rl.orbit.utils.tensordict import extract_tensors_from_a_dict
 from .utils_algo_graph import make_ppo_models
 
 

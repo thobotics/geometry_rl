@@ -1,4 +1,4 @@
-_target_: ironlib.modules.pyg_models.hepi.HEPi
+_target_: geometry_rl.modules.pyg_models.hepi.HEPi
 name: HEPi  # for logging purposes
 
 latent_dim: &latent_dim 64
@@ -18,7 +18,7 @@ num_messages: 2
 message_passing:
   
   - processor:
-      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      _target_: geometry_rl.modules.pyg_models.ponita.conv.FiberBundleConv
       in_channels: *latent_dim
       out_channels: *latent_dim
       attr_dim: *latent_dim
@@ -28,7 +28,7 @@ message_passing:
     code: [1, 0]
     
   - processor: 
-      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      _target_: geometry_rl.modules.pyg_models.ponita.conv.FiberBundleConv
       in_channels: *latent_dim
       out_channels: *latent_dim
       attr_dim: *latent_dim
@@ -38,7 +38,7 @@ message_passing:
     code: [0, 1]
 
   - processor: 
-      _target_: ironlib.modules.pyg_models.ponita.conv.FiberBundleConv
+      _target_: geometry_rl.modules.pyg_models.ponita.conv.FiberBundleConv
       in_channels: *latent_dim
       out_channels: *latent_dim
       attr_dim: *latent_dim

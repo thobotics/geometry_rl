@@ -15,7 +15,7 @@ simulation_app = None
 def test_orbit_env(cfg: "DictConfig"):  # noqa: F821
     """Start Isaac Sim Simulator first."""
     global simulation_app
-    from ironlib.orbit.utils.omniverse_app import launch_app  # noqa
+    from geometry_rl.orbit.utils.omniverse_app import launch_app  # noqa
 
     simulation_app = launch_app(config=OmegaConf.to_container(cfg.simulator, resolve=True))
 

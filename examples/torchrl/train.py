@@ -16,7 +16,7 @@ simulation_app = None
 def main(cfg: "DictConfig"):  # noqa: F821
     """Start Isaac Sim Simulator first."""
     global simulation_app
-    from ironlib.orbit.utils.omniverse_app import launch_app  # noqa
+    from geometry_rl.orbit.utils.omniverse_app import launch_app  # noqa
 
     simulation_app = launch_app(config=OmegaConf.to_container(cfg.simulator, resolve=True))
 
@@ -44,7 +44,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
 
     from torchmetrics.regression import ExplainedVariance
 
-    from ironlib.orbit.utils.tensordict import (
+    from geometry_rl.orbit.utils.tensordict import (
         extract_tensors_from_a_dict,
         recursively_merge_dict,
     )
@@ -176,7 +176,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
             logger_name=cfg.logger.log_dir,
             experiment_name=exp_name,
             wandb_kwargs={
-                "project": f"ironlib_{cfg.logger.project}",
+                "project": f"geometry_rl_{cfg.logger.project}",
                 "group": group,
                 "job_type": job_type,
             },

@@ -82,7 +82,7 @@ def _make_trpl_probabilistic_actor(
     projection_type="ppo",
     **kwargs,
 ):
-    from ironlib.algorithms.trust_region_projections.models.policy.policy_factory import (
+    from geometry_rl.algorithms.trust_region_projections.models.policy.policy_factory import (
         get_policy_network,
     )
 
@@ -142,7 +142,7 @@ def make_ppo_models(proof_environment, config, total_network_updates):
 
     # Add probabilistic sampling of the actions
     if config["name"] == "trpl":
-        from ironlib.algorithms.trust_region_projections.projections.projection_factory import (
+        from geometry_rl.algorithms.trust_region_projections.projections.projection_factory import (
             get_projection_layer,
         )
 

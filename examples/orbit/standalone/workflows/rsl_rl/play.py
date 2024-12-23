@@ -52,7 +52,7 @@ from rsl_rl.runners import OnPolicyRunner
 
 import omni.isaac.contrib_tasks  # noqa: F401
 import omni.isaac.orbit_tasks  # noqa: F401
-import ironlib.orbit.tasks  # noqa: F401
+import geometry_rl.orbit.tasks  # noqa: F401
 from omni.isaac.orbit_tasks.utils import get_checkpoint_path, parse_env_cfg
 from omni.isaac.orbit_tasks.utils.wrappers.rsl_rl import (
     RslRlOnPolicyRunnerCfg,
