@@ -74,7 +74,7 @@ def parse_args():
     parser.add_argument(
         "--exploration_type",
         type=str,
-        default="mode",
+        default="default",
         help="Type of exploration to use during evaluation.",
     )
     parser.add_argument(
@@ -106,7 +106,7 @@ def main(
     num_episodes: int = 5,
     save_data: bool = False,
     save_dir: str = "logs/data",
-    exploration_type: str = "mode",
+    exploration_type: str = "default",
     **kwargs,
 ):  # noqa: F821
     """Start Isaac Sim Simulator first."""
@@ -142,6 +142,9 @@ def main(
 
     env_config = OmegaConf.to_container(cfg.env, resolve=True)
     algo_config = OmegaConf.to_container(cfg.algorithm, resolve=True)
+
+    if exploration_type == "default" and "eval_type" in env_config:
+        exploration_type = env_config["eval_type"]
 
     env_config["seed"] = 999
 

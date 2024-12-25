@@ -121,7 +121,7 @@ algorithm:
       data:
         base_data:
           full_graph_obs: True
-          dist_as_pos: Falseq
+          dist_as_pos: False
           training_noise: False
           output_mask_key: null
         input_node_aux_dim: 12

@@ -43,6 +43,7 @@ env:
   name: Isaac-Rope-Closing-v0
   num_envs: 200
   warmup_steps: 10
+  eval_type: "random"
   transform:
     - _target_: geometry_rl.torchrl.envs.ReshapeTransform
       in_keys: ["position_vectors", "velocity_vectors"]

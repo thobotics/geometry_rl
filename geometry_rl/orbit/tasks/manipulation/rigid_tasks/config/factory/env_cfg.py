@@ -14,7 +14,7 @@ from ..common_cfg.actions_cfg import (
 from ..common_cfg.rewards_cfg import (
     SlidingRewardsCfg,
     InsertionRewardsCfg,
-    InsertionTwoAgentsRewardsTwoCfg,
+    InsertionTwoAgentsRewardsCfg,
     PushingRewardsCfg,
 )
 from ..common_cfg.terminations_cfg import TerminationsCfg
@@ -98,7 +98,7 @@ class RigidInsertionTwoAgentsEnvCfg(RigidInsertionEnvCfg):
     actions: OnlyLinearActionsZCfg = OnlyLinearActionsZCfg()
 
     # MDP settings
-    rewards: InsertionTwoAgentsRewardsTwoCfg = InsertionTwoAgentsRewardsTwoCfg()
+    rewards: InsertionTwoAgentsRewardsCfg = InsertionTwoAgentsRewardsCfg()
     randomization: InsertionTwoAgentsRandomizationCfg = InsertionTwoAgentsRandomizationCfg()
 
 

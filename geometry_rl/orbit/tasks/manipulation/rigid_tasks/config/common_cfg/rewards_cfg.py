@@ -52,7 +52,7 @@ class InsertionRewardsCfg:
 
 
 @configclass
-class InsertionTwoAgentsRewardsTwoCfg:
+class InsertionTwoAgentsRewardsCfg:
     """Reward terms for the MDP."""
 
     object_target_tracking = RewTerm(

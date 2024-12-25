@@ -6,6 +6,7 @@ seed: 0
 num_envs: 4000
 device: cuda
 warmup_steps: 0
+eval_type: "mode" # "random" or "mode"
 extra:
 
 env_info:

@@ -41,8 +41,9 @@ logger:
 # specific configuration
 env:
   name: Isaac-Rigid-Insertion-Two-Agents-Multi-v0
-  num_envs: 1000
+  num_envs: 400
   warmup_steps: 5
+  eval_type: "random"
   transform:
     - _target_: geometry_rl.torchrl.envs.ReshapeTransform
       in_keys: ["position_vectors", "velocity_vectors"]

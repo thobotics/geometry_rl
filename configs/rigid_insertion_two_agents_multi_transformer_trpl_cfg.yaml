@@ -17,7 +17,7 @@ defaults:
   - override env/transform: normalize_3d_and_clip
   - override algorithm/policy: default
   - override algorithm/policy/pyg_agent/data: ../../../pyg_agent/data/rigid_tasks
-  - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/hepi
+  - override algorithm/policy/pyg_agent/model: ../../../pyg_agent/model/transformer
   - override algorithm/value: default
   - override algorithm/value/pyg_agent/data: ../../../pyg_agent/data/rigid_tasks
   - override algorithm/value/pyg_agent/model: ../../../pyg_agent/model/deepsets
@@ -36,11 +36,11 @@ work_dir: ${hydra:runtime.cwd}
 
 logger:
   checkpoint:
-    save_interval: 4
+    save_interval: 2
 
 # specific configuration
 env:
-  name: Isaac-Rigid-Insertion-Multi-v0
+  name: Isaac-Rigid-Insertion-Two-Agents-Multi-v0
   num_envs: 400
   warmup_steps: 5
   eval_type: "random"
@@ -77,43 +77,37 @@ env:
 
 collector:
   frames_per_batch: 100_000  # 1000 envs * 100 steps
-  total_frames: 20_000_000
+  total_frames: 10_000_000
 
 latent_dim: &latent_dim 64  # ${algorithm.policy.hidden_sizes.0}
 
 algorithm:
   policy:
     contextual_std: True
-    post_fc: False  # NOTE: this is different from the original configuration
     hidden_sizes:
     - *latent_dim
     - *latent_dim
     in_features:
       - scalars
-      - position_vectors
-      - velocity_vectors
+      - norm_position_vectors
+      - norm_velocity_vectors
       - norm_position_vectors
       - norm_velocity_vectors
       - infos
     share_action_dim: True
-    action_dim: 6
+    action_dim: 3
     pyg_agent:
       data:
         base_data:
-          concat_input_vector: False # NOTE: this is different from the original configuration
           full_graph_obs: False
           dist_as_pos: True  # True  # False
           training_noise: False
           training_noise_std: 0.01
           output_mask_key: grippers
-        input_node_aux_dim: 4  # 4 vectors
+          angular_velocity: False
+        input_node_aux_dim: 12 
       model:
         concat_global: False
-        output_dim: 2  # 2 for linear and angular velocity
-        output_dim_vec: 2  # 2 for linear and angular velocity
-        num_ori: 16
-        ponita_dim: 3
-        only_upper_hemisphere: True
   value:
     hidden_sizes:
       - *latent_dim
@@ -132,6 +126,7 @@ algorithm:
           dist_as_pos: False
           training_noise: False
           output_mask_key: null
+          angular_velocity: False
         input_node_aux_dim: 12
   objective:
     ppo_epochs: 5
