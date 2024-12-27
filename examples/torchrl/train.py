@@ -350,7 +350,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
                     },
                     model_path,
                 )
-                if logger:
+                if logger and cfg.logger.checkpoint.save_to_cloud:
                     logger.experiment.save(model_path)
             if cfg.logger.checkpoint.save_best and highest_reward > highest_reward_saved:
                 model_path = os.path.join(checkpoint_dir, "model_checkpoint_best.pth")
@@ -363,7 +363,7 @@ def main(cfg: "DictConfig"):  # noqa: F821
                     },
                     model_path,
                 )
-                if logger:
+                if logger and cfg.logger.checkpoint.save_to_cloud:
                     logger.experiment.save(model_path)
                 highest_reward_saved = highest_reward
 
