@@ -10,18 +10,27 @@ To get started with GeometryRL, follow the steps below:
     ├── ...
     ├── repos                  # Root workspace
     │   ├── geometry_rl        # geometry_rl repo
-    │   ├── orbit              # orbit repo
+    │   ├── geometry_orbit              # orbit repo
     │   ├── others             # other repos
     └── ...
     ```
-    Note: you can change your workspace structure by modifying `docker/.env`, then `docker-compose` will build an image with context points to the Root workspace.
+    ***Note***: you can change your workspace structure by modifying `docker/.env`, then `docker-compose` will build an image with context points to the Root workspace.
 
-1. Setup Docker:
+1. Clone the required repos `geometry_orbit` and `ITPAL`
+    ```
+    git clone git@github.com:thobotics/geometry_orbit.git
+    ```
+    ```
+    git clone git@github.com:ALRhub/ITPAL.git
+    ```
+    and put them into the correct workspace structure.
+
+2. Setup Docker:
     ```
     ./docker/container.sh start
     ```
 
-2. Inside container (entering via `./docker/container.sh enter`):
+3. Inside container (entering via `./docker/container.sh enter`):
     ```bash
     orbit -p examples/torchrl/train.py -cn rigid_insertion_multi_hepi_trpl_cfg simulator.headless=True
     ```
@@ -30,7 +39,7 @@ To get started with GeometryRL, follow the steps below:
     orbit -p examples/torchrl/play.py -cn rigid_insertion_multi_hepi_trpl_cfg
     ```
 
-3. Run the rsl_rl example with orbit:
+4. Run the rsl_rl example with orbit:
     ```bash
     orbit -p examples/orbit/standalone/workflows/rsl_rl/train.py --task Isaac-Ant-v0 --headless
     ```
@@ -38,3 +47,17 @@ To get started with GeometryRL, follow the steps below:
 ## License
 
 GeometryRL is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+
+## Citation
+
+```
+@inproceedings{
+anonymous2025geometryaware,
+title={Geometry-aware {RL} for Manipulation of Varying Shapes and Deformable Objects},
+author={Tai Hoang and Huy Le and Philipp Becker and Vien Anh Ngo and Gerhard Neumann},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=7BLXhmWvwF}
+}
+```

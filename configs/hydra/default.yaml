@@ -1,8 +1,8 @@
 # output paths for hydra logs
 run:
-    dir: logs/geometry_rl_iclr/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S-%f}
+    dir: logs/geometry_rl/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S-%f}
 sweep:
-    dir: logs/geometry_rl_multiruns_iclr/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S-%f}
+    dir: logs/geometry_rl_multiruns/${experiment_name}/${now:%Y-%m-%d_%H-%M-%S-%f}
     subdir: ${hydra.job.override_dirname}
 
 job:
