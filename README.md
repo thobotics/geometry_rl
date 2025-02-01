@@ -10,7 +10,7 @@ To get started with GeometryRL, follow the steps below:
     ├── ...
     ├── repos                  # Root workspace
     │   ├── geometry_rl        # geometry_rl repo
-    │   ├── geometry_orbit              # orbit repo
+    │   ├── geometry_orbit     # geometry_orbit repo
     │   ├── others             # other repos
     └── ...
     ```
