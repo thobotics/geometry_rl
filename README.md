@@ -36,12 +36,7 @@ To get started with GeometryRL, follow the steps below:
     ```
 
     ```bash
-    orbit -p examples/torchrl/play.py -cn rigid_insertion_multi_hepi_trpl_cfg
-    ```
-
-4. Run the rsl_rl example with orbit:
-    ```bash
-    orbit -p examples/orbit/standalone/workflows/rsl_rl/train.py --task Isaac-Ant-v0 --headless
+    orbit -p examples/torchrl/play.py -cn rigid_insertion_multi_hepi_trpl_cfg --checkpoint_name model_checkpoint_best.pth
     ```
 
 ## License
