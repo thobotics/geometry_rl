@@ -171,7 +171,13 @@ def shape_descriptor(positions):
     # Concatenate all features to form the shape descriptor
     relative_vectors = relative_vectors.flatten()
     shape_descriptor_tensor = torch.cat(
-        [angles_between_segments, angles_with_global_direction, relative_vectors, relative_distances], dim=0
+        [
+            angles_between_segments,
+            angles_with_global_direction,
+            relative_vectors,
+            relative_distances,
+        ],
+        dim=0,
     )
     return shape_descriptor_tensor
 

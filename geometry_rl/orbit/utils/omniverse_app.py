@@ -15,9 +15,7 @@ def launch_app(config):
     # load cheaper kit config in headless
     headless = config.get("headless", False)
     if headless:
-        app_experience = (
-            f"{os.environ['EXP_PATH']}/omni.isaac.sim.python.gym.headless.kit"
-        )
+        app_experience = f"{os.environ['EXP_PATH']}/omni.isaac.sim.python.gym.headless.kit"
     else:
         app_experience = f"{os.environ['EXP_PATH']}/omni.isaac.sim.python.kit"
 

@@ -15,9 +15,7 @@ def _clip_value_loss(
     and returns the most pessimistic value prediction between clipped and non-clipped options.
     It also computes the clip fraction.
     """
-    state_value_clipped = old_state_value + (state_value - old_state_value).clamp(
-        -clip_value, clip_value
-    )
+    state_value_clipped = old_state_value + (state_value - old_state_value).clamp(-clip_value, clip_value)
     loss_value_clipped = distance_loss(
         target_return,
         state_value_clipped,
@@ -26,7 +24,5 @@ def _clip_value_loss(
     # Chose the most pessimistic value prediction between clipped and non-clipped
     loss_value = torch.max(loss_value, loss_value_clipped)
     with torch.no_grad():
-        clip_fraction = (
-            (state_value / old_state_value).clamp(1 - clip_value, 1 + clip_value).abs()
-        )
+        clip_fraction = (state_value / old_state_value).clamp(1 - clip_value, 1 + clip_value).abs()
     return loss_value, clip_fraction

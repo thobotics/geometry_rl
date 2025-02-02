@@ -24,7 +24,11 @@ class ClosingGrippers:
     # add cube
     grippers_init_state = [
         (0.0, 0.0, 0.1),
-        (3.9, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
+        (
+            3.9,
+            0.0,
+            0.1,
+        ),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
         # (7.9, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
         # (1.95, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1) / 2
     ]
@@ -94,7 +98,11 @@ class ShapingGrippers(ClosingGrippers):
         (0.0, 0.0, 0.1),
         # (3.9, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
         # (1.95, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1) / 2
-        (7.9, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
+        (
+            7.9,
+            0.0,
+            0.1,
+        ),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1)
         # (3.95, 0.0, 0.1),  # =(ROPE_LENGTH / ROPE_NUM_LINKS - radius) * (ROPE_NUM_LINKS - 1) / 2
     ]
 

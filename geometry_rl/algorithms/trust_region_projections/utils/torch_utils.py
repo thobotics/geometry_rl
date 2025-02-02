@@ -269,10 +269,7 @@ def fill_triangular(x, upper=False):
     # Formula derived by solving for n: m = n(n+1)/2.
     n = np.sqrt(0.25 + 2.0 * m) - 0.5
     if n != np.floor(n):
-        raise ValueError(
-            "Input right-most shape ({}) does not "
-            "correspond to a triangular matrix.".format(m)
-        )
+        raise ValueError("Input right-most shape ({}) does not " "correspond to a triangular matrix.".format(m))
     n = np.int32(n)
     new_shape = x.shape[:-1] + (n, n)
 
@@ -339,9 +336,7 @@ def fill_triangular_inverse(x, upper=False):
         initial_elements = ch.flip(x[..., -1, :], dims=[ndims - 2])
         triangular_part = x[..., :-1, :]
 
-    rotated_triangular_portion = ch.flip(
-        ch.flip(triangular_part, dims=[ndims - 1]), dims=[ndims - 2]
-    )
+    rotated_triangular_portion = ch.flip(ch.flip(triangular_part, dims=[ndims - 1]), dims=[ndims - 2])
     consolidated_matrix = triangular_part + rotated_triangular_portion
 
     end_sequence = consolidated_matrix.reshape(x.shape[:-2] + (n * (n - 1),))
@@ -470,9 +465,7 @@ def logsubexp(input: ch.Tensor, other: ch.Tensor):
         input: first probability in log-space
         other: second probability in log-space
     """
-    assert (
-        input < other
-    ).all(), "Cannot subtract larger number from smaller one in log space, log is not defined"
+    assert (input < other).all(), "Cannot subtract larger number from smaller one in log space, log is not defined"
     return input + log1mexp(other - input)
 
 
@@ -503,18 +496,14 @@ def try_set_gpu_device(params: dict):
             params["cpu"] = True
 
 
-def transform_to_2hot(
-    scalar: ch.Tensor, min_value: float, max_value: float, num_bins: int
-) -> ch.Tensor:
+def transform_to_2hot(scalar: ch.Tensor, min_value: float, max_value: float, num_bins: int) -> ch.Tensor:
     """Transforms a scalar tensor to a 2 hot representation."""
     scalar = ch.clip(scalar, min_value, max_value)
     scalar_bin = (scalar - min_value) / (max_value - min_value) * (num_bins - 1)
     lower, upper = ch.floor(scalar_bin), ch.ceil(scalar_bin)
     lower_value = (lower / (num_bins - 1.0)) * (max_value - min_value) + min_value
     upper_value = (upper / (num_bins - 1.0)) * (max_value - min_value) + min_value
-    p_lower = ((upper_value - scalar) / (upper_value - lower_value + 1e-5)).unsqueeze(
-        -1
-    )
+    p_lower = ((upper_value - scalar) / (upper_value - lower_value + 1e-5)).unsqueeze(-1)
     p_upper = 1 - p_lower
     lower_one_hot = one_hot(lower, num_bins, dtype=scalar.dtype) * p_lower
     upper_one_hot = one_hot(upper, num_bins, dtype=scalar.dtype) * p_upper

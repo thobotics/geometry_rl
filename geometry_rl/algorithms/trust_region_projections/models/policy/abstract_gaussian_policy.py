@@ -37,9 +37,7 @@ class AbstractGaussianPolicy(nn.Module, ABC):
         self.init_std = ch.tensor(init_std)
         self.use_tanh_mean = use_tanh_mean
 
-        self._affine_layers = get_mlp(
-            obs_dim, hidden_sizes, init, activation, layer_norm, True
-        )
+        self._affine_layers = get_mlp(obs_dim, hidden_sizes, init, activation, layer_norm, True)
 
         prev_size = hidden_sizes[-1]
 
@@ -48,17 +46,11 @@ class AbstractGaussianPolicy(nn.Module, ABC):
 
         # This shift is applied to the Parameter/cov NN output before applying the transformation
         # and gives hence the wanted initial cov
-        self._pre_activation_shift = self._get_preactivation_shift(
-            self.init_std, self.minimal_std
-        )
+        self._pre_activation_shift = self._get_preactivation_shift(self.init_std, self.minimal_std)
         self._mean = self._get_mean(action_dim, prev_size, init, gain, scale)
-        self._pre_std = self._get_std(
-            contextual_std, action_dim, prev_size, init, gain, scale
-        )
+        self._pre_std = self._get_std(contextual_std, action_dim, prev_size, init, gain, scale)
         if not trainable_std:
-            assert (
-                not self.contextual_std
-            ), "Cannot freeze std while using a contextual std."
+            assert not self.contextual_std, "Cannot freeze std while using a contextual std."
             self._pre_std.requires_grad_(False)
 
         self.vf_model = vf_model
@@ -80,9 +72,7 @@ class AbstractGaussianPolicy(nn.Module, ABC):
         elif self.vf_model:
             value = self.vf_model(x, train)
         else:
-            raise ValueError(
-                "Must be sharing weights or use joint training to use get_value."
-            )
+            raise ValueError("Must be sharing weights or use joint training to use get_value.")
 
         return value
 
@@ -156,9 +146,7 @@ class AbstractGaussianPolicy(nn.Module, ABC):
         pass
 
     @abstractmethod
-    def _get_std_layer(
-        self, prev_size, action_dim, init, gain=0.01, scale=1e-4
-    ) -> nn.Module:
+    def _get_std_layer(self, prev_size, action_dim, init, gain=0.01, scale=1e-4) -> nn.Module:
         """
         Creates a layer for predicting the std for a contextual policy.
         Args:
@@ -202,9 +190,7 @@ class AbstractGaussianPolicy(nn.Module, ABC):
         pass
 
     @abstractmethod
-    def log_probability(
-        self, p: Tuple[ch.Tensor, ch.Tensor], x: ch.Tensor, **kwargs
-    ) -> ch.Tensor:
+    def log_probability(self, p: Tuple[ch.Tensor, ch.Tensor], x: ch.Tensor, **kwargs) -> ch.Tensor:
         """
         Computes the log probability of x given a batched distributions p (mean, std)
         Args:

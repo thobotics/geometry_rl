@@ -12,7 +12,10 @@ from omni.isaac.orbit.assets import (
     JointAttachmentCfg,
 )
 
-from geometry_rl.orbit.tasks.common.sim_utils import MultiAssetCfg, spawn_fixed_number_of_multi_object_sdf
+from geometry_rl.orbit.tasks.common.sim_utils import (
+    MultiAssetCfg,
+    spawn_fixed_number_of_multi_object_sdf,
+)
 from .env_cfg import RigidInsertionEnvCfg
 from ..common_cfg.grippers_cfg import SuctionGrippers
 from ..common_cfg.scene_cfg import RigidSceneCfg
@@ -241,7 +244,10 @@ class MultiAssetsScene:
                 func=spawn_fixed_number_of_multi_object_sdf,
                 assets_cfg=[
                     SuctionGrippers.default_cfg(
-                        rigid=True, disable_gravity=False, locked_rot_axis=3, size=(0.5, 0.025, 0.025)
+                        rigid=True,
+                        disable_gravity=False,
+                        locked_rot_axis=3,
+                        size=(0.5, 0.025, 0.025),
                     )
                     for _ in range(MultiGeometryScene.num_geometries)
                 ],

@@ -57,9 +57,7 @@ class WassersteinProjectionLayerNonCommuting(BaseProjectionLayer):
 
         ################################################################################################################
         # mean projection
-        proj_mean = ch.where(
-            mask[..., None], (1 - t)[..., None] * old_mean + t[..., None] * mean, mean
-        )
+        proj_mean = ch.where(mask[..., None], (1 - t)[..., None] * old_mean + t[..., None] * mean, mean)
 
         ################################################################################################################
         # covariance projection
@@ -69,9 +67,7 @@ class WassersteinProjectionLayerNonCommuting(BaseProjectionLayer):
         # Compute sqrt(c)^-1 = V @ sqrt(1/D) @ V^T
         prod_inv = ch.zeros_like(sqrt, dtype=mean.dtype, device=mean.device) + I
         prod_inv[mask] = (
-            eigvecs[mask]
-            @ (1 / eigvals[mask].sqrt()).diag_embed(0, -2, -1)
-            @ eigvecs[mask].permute(0, 2, 1)
+            eigvecs[mask] @ (1 / eigvals[mask].sqrt()).diag_embed(0, -2, -1) @ eigvecs[mask].permute(0, 2, 1)
         )
         W = sqrt @ prod_inv @ sqrt
         d = (1 - t)[..., None, None] * I + t[..., None, None] * W
@@ -85,6 +81,4 @@ class WassersteinProjectionLayerNonCommuting(BaseProjectionLayer):
         Returns:
             mean and covariance part
         """
-        return gaussian_wasserstein_non_commutative(
-            policy, p, q, scale_prec=self.scale_prec
-        )
+        return gaussian_wasserstein_non_commutative(policy, p, q, scale_prec=self.scale_prec)

@@ -7,7 +7,9 @@ from math import pi
 from ... import mdp
 from .grippers_cfg import HangingGrippers
 
-from geometry_rl.orbit.tasks.common.world_frame_randomization import reset_cubes_uniform_around_origin
+from geometry_rl.orbit.tasks.common.world_frame_randomization import (
+    reset_cubes_uniform_around_origin,
+)
 
 
 @configclass

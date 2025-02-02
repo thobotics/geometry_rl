@@ -80,9 +80,7 @@ class HeteroNodeCategorical(BaseTransform):
 
 @functional_transform("hetero_edge_categorical")
 class HeteroEdgeCategorical(BaseTransform):
-    def __init__(
-        self, cat: bool = True, edge_types: Optional[List[Tuple[str, str, str]]] = None
-    ):
+    def __init__(self, cat: bool = True, edge_types: Optional[List[Tuple[str, str, str]]] = None):
         super().__init__()
         self.cat = cat
         self.edge_types = edge_types
@@ -111,9 +109,7 @@ class HeteroEdgeCategorical(BaseTransform):
             # Concatenate with existing edge attributes if necessary
             if edge_attr is not None and self.cat:
                 edge_attr = edge_attr.view(-1, 1) if edge_attr.dim() == 1 else edge_attr
-                data[edge_type].edge_attr = torch.cat(
-                    [edge_attr, edge_type_one_hot], dim=-1
-                )
+                data[edge_type].edge_attr = torch.cat([edge_attr, edge_type_one_hot], dim=-1)
             else:
                 data[edge_type].edge_attr = edge_type_one_hot
 
@@ -133,11 +129,7 @@ class HeteroCartesian(Cartesian):
             temp_data = Data(
                 pos=torch.cat([data[src].pos, data[dst].pos], dim=0),
                 edge_index=data[edge_type].edge_index,
-                edge_attr=(
-                    data[edge_type].edge_attr
-                    if "edge_attr" in data[edge_type].keys()
-                    else None
-                ),
+                edge_attr=(data[edge_type].edge_attr if "edge_attr" in data[edge_type].keys() else None),
             )
 
             # Apply the Cartesian transform to the temporary Data object
@@ -159,11 +151,7 @@ class HeteroDistance(Distance):
             temp_data = Data(
                 pos=torch.cat([data[src].pos, data[dst].pos], dim=0),
                 edge_index=data[edge_type].edge_index,
-                edge_attr=(
-                    data[edge_type].edge_attr
-                    if "edge_attr" in data[edge_type].keys()
-                    else None
-                ),
+                edge_attr=(data[edge_type].edge_attr if "edge_attr" in data[edge_type].keys() else None),
             )
 
             # Apply the Distance transform to the temporary Data object

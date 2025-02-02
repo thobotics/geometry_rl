@@ -4,7 +4,11 @@ from omni.isaac.orbit.envs import RLTaskEnvCfg
 from omni.isaac.orbit.utils import configclass
 from omni.isaac.orbit.assets import AssetBaseCfg
 from ..common_cfg.scene_cfg import RigidSceneCfg
-from ..common_cfg.observations_cfg import FullObservationsCfg, NoObjectVelObservationCfg, FullSceneObservationTwoAgentsCfg
+from ..common_cfg.observations_cfg import (
+    FullObservationsCfg,
+    NoObjectVelObservationCfg,
+    FullSceneObservationTwoAgentsCfg,
+)
 from ..common_cfg.actions_cfg import (
     LinearWithYawRotationNoZActionsCfg,
     LinearWithYawRotationZActionsCfg,

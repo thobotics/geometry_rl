@@ -105,9 +105,7 @@ class OrbitTorchRLWrapper(GymWrapper, metaclass=_SyncMeta):
 
         cls._warmup_steps = config.pop("warmup_steps", 0)
         env_cfg.warmup_steps = cls._warmup_steps
-        env_cfg.episode_length_s += (
-            cls._warmup_steps * env_cfg.decimation * env_cfg.sim.dt
-        )
+        env_cfg.episode_length_s += cls._warmup_steps * env_cfg.decimation * env_cfg.sim.dt
 
         if cls._envs is None:
             envs = gym.make(
@@ -153,16 +151,12 @@ class OrbitTorchRLWrapper(GymWrapper, metaclass=_SyncMeta):
     ) -> Tuple[bool, bool, bool]:
         if terminated is not None:
             if not isinstance(terminated, torch.Tensor):
-                terminated = torch.tensor(
-                    terminated, dtype=torch.bool, device=self.device
-                )
+                terminated = torch.tensor(terminated, dtype=torch.bool, device=self.device)
             terminated = terminated.bool()
 
         if truncated is not None:
             if not isinstance(truncated, torch.Tensor):
-                truncated = torch.tensor(
-                    truncated, dtype=torch.bool, device=self.device
-                )
+                truncated = torch.tensor(truncated, dtype=torch.bool, device=self.device)
 
             truncated = truncated.bool()
         if done is not None:
@@ -183,9 +177,7 @@ class OrbitTorchRLWrapper(GymWrapper, metaclass=_SyncMeta):
             total_reward = total_reward.reshape(self.reward_spec.shape)
         return total_reward + step_reward
 
-    def read_obs(
-        self, observations: Union[Dict[str, Any], torch.Tensor, np.ndarray]
-    ) -> Dict[str, Any]:
+    def read_obs(self, observations: Union[Dict[str, Any], torch.Tensor, np.ndarray]) -> Dict[str, Any]:
         """Reads an observation from the environment and returns an observation compatible with the output TensorDict.
 
         Args:
@@ -248,9 +240,7 @@ class OrbitTorchRLEnv(OrbitTorchRLWrapper):
         else:
             import gym
 
-        orbit_envs = [
-            task for task in gym.envs.registry.keys() if task.startswith("Isaac")
-        ]
+        orbit_envs = [task for task in gym.envs.registry.keys() if task.startswith("Isaac")]
         yield orbit_envs
 
     def __init__(self, task=None, *, env=None, num_envs, device, config=None):

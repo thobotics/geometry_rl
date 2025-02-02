@@ -19,9 +19,7 @@ def add_rsl_rl_args(parser: argparse.ArgumentParser):
         parser: The parser to add the arguments to.
     """
     # create a new argument group
-    arg_group = parser.add_argument_group(
-        "rsl_rl", description="Arguments for RSL-RL agent."
-    )
+    arg_group = parser.add_argument_group("rsl_rl", description="Arguments for RSL-RL agent.")
     # -- experiment arguments
     arg_group.add_argument(
         "--experiment_name",
@@ -36,18 +34,14 @@ def add_rsl_rl_args(parser: argparse.ArgumentParser):
         help="Run name suffix to the log directory.",
     )
     # -- load arguments
-    arg_group.add_argument(
-        "--resume", type=bool, default=None, help="Whether to resume from a checkpoint."
-    )
+    arg_group.add_argument("--resume", type=bool, default=None, help="Whether to resume from a checkpoint.")
     arg_group.add_argument(
         "--load_run",
         type=str,
         default=None,
         help="Name of the run folder to resume from.",
     )
-    arg_group.add_argument(
-        "--checkpoint", type=str, default=None, help="Checkpoint file to resume from."
-    )
+    arg_group.add_argument("--checkpoint", type=str, default=None, help="Checkpoint file to resume from.")
     # -- logger arguments
     arg_group.add_argument(
         "--logger",
@@ -64,9 +58,7 @@ def add_rsl_rl_args(parser: argparse.ArgumentParser):
     )
 
 
-def parse_rsl_rl_cfg(
-    task_name: str, args_cli: argparse.Namespace
-) -> RslRlOnPolicyRunnerCfg:
+def parse_rsl_rl_cfg(task_name: str, args_cli: argparse.Namespace) -> RslRlOnPolicyRunnerCfg:
     """Parse configuration for RSL-RL agent based on inputs.
 
     Args:
@@ -79,9 +71,7 @@ def parse_rsl_rl_cfg(
     from omni.isaac.orbit_tasks.utils.parse_cfg import load_cfg_from_registry
 
     # load the default configuration
-    rslrl_cfg: RslRlOnPolicyRunnerCfg = load_cfg_from_registry(
-        task_name, "rsl_rl_cfg_entry_point"
-    )
+    rslrl_cfg: RslRlOnPolicyRunnerCfg = load_cfg_from_registry(task_name, "rsl_rl_cfg_entry_point")
 
     # override the default configuration with CLI arguments
     if args_cli.seed is not None:

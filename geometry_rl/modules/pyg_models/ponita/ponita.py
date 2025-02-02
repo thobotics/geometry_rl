@@ -100,7 +100,15 @@ class GridGenerator(nn.Module):
 class SeparableFiberBundleConv(nn.Module):
     """ """
 
-    def __init__(self, in_channels, out_channels, kernel_dim, bias=True, groups=1, attention=False):
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        kernel_dim,
+        bias=True,
+        groups=1,
+        attention=False,
+    ):
         super().__init__()
 
         # Check arguments
@@ -158,7 +166,11 @@ class SeparableFiberBundleConv(nn.Module):
             x_2 = torch.einsum("boc,poc->bpc", x_1, fiber_kernel) / fiber_kernel.shape[-2]
         else:
             x_2 = (
-                torch.einsum("boc,podc->bpd", x_1, fiber_kernel.unflatten(-1, (self.out_channels, self.in_channels)))
+                torch.einsum(
+                    "boc,podc->bpd",
+                    x_1,
+                    fiber_kernel.unflatten(-1, (self.out_channels, self.in_channels)),
+                )
                 / fiber_kernel.shape[-2]
             )
 
@@ -183,7 +195,15 @@ class SeparableFiberBundleConv(nn.Module):
 class SeparableFiberBundleConvNext(nn.Module):
     """ """
 
-    def __init__(self, channels, kernel_dim, act=nn.GELU(), layer_scale=1e-6, widening_factor=4, attention=False):
+    def __init__(
+        self,
+        channels,
+        kernel_dim,
+        act=nn.GELU(),
+        layer_scale=1e-6,
+        widening_factor=4,
+        attention=False,
+    ):
         super().__init__()
 
         self.conv = SeparableFiberBundleConv(channels, channels, kernel_dim, groups=channels, attention=attention)
@@ -256,7 +276,8 @@ class Ponita(nn.Module):
 
         self.last_feature_conditioning = last_feature_conditioning
         self.register_buffer(
-            "ori_grid", GridGenerator(dim, num_ori, steps=1000, only_upper_hemisphere=only_upper_hemisphere)()
+            "ori_grid",
+            GridGenerator(dim, num_ori, steps=1000, only_upper_hemisphere=only_upper_hemisphere)(),
         )
 
         # Input output settings
@@ -380,7 +401,11 @@ def main():
     pos = input_vec.clone()
     pos *= 10.0
 
-    edge_index = torch.tensor([[0, 1, 3, 4, 6, 7, 9, 10], [2, 2, 5, 5, 8, 8, 11, 11]], dtype=torch.long, device=device)
+    edge_index = torch.tensor(
+        [[0, 1, 3, 4, 6, 7, 9, 10], [2, 2, 5, 5, 8, 8, 11, 11]],
+        dtype=torch.long,
+        device=device,
+    )
 
     model = Ponita(
         1 + 1,

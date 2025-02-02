@@ -303,7 +303,9 @@ class RigidTasksData(BaseData):
                 points_actuator_edges = []
                 for k in range(actuators.shape[0]):
                     knn_edges = torch_geometric.nn.knn(
-                        points[: num_points[i]], actuators[k][None], self.knn_to_actuators_k
+                        points[: num_points[i]],
+                        actuators[k][None],
+                        self.knn_to_actuators_k,
                     ).flip(0)
                     knn_edges[1] = k
                     points_actuator_edges.append(knn_edges)

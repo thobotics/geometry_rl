@@ -197,10 +197,17 @@ def get_geometry_from_rigid_object(env, name, return_edges=False, return_num=Fal
             geom_points[i] = transform_points(geom_points[i], translation[i], orientation[i])
             geom_points[i] -= env.scene.env_origins[i].unsqueeze(0)
             geom_points[i] = torch.cat(
-                [geom_points[i], torch.zeros(max_num_points - len(geom_points[i]), 3, device=device)]
+                [
+                    geom_points[i],
+                    torch.zeros(max_num_points - len(geom_points[i]), 3, device=device),
+                ]
             )
             geom_edges[i] = torch.cat(
-                [geom_edges[i], -torch.ones(2, max_num_edges - geom_edges[i].shape[1], device=device)], dim=1
+                [
+                    geom_edges[i],
+                    -torch.ones(2, max_num_edges - geom_edges[i].shape[1], device=device),
+                ],
+                dim=1,
             )
 
         geometry_positions = torch.stack(geom_points, dim=0)

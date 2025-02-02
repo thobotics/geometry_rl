@@ -17,7 +17,10 @@ from omni.isaac.orbit.scene import InteractiveSceneCfg
 from omni.isaac.orbit.utils import configclass
 
 from .grippers_cfg import HangingGrippers
-from geometry_rl.orbit.tasks.common.sim_utils import MultiAssetCfg, spawn_fixed_number_of_multi_object_sdf
+from geometry_rl.orbit.tasks.common.sim_utils import (
+    MultiAssetCfg,
+    spawn_fixed_number_of_multi_object_sdf,
+)
 
 random.seed(2)
 

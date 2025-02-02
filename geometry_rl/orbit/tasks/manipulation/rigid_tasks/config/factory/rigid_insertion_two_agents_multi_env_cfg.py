@@ -11,7 +11,10 @@ from omni.isaac.orbit.assets import (
     RigidObjectWithAttachmentCfg,
     JointAttachmentCfg,
 )
-from geometry_rl.orbit.tasks.common.sim_utils import MultiAssetCfg, spawn_fixed_number_of_multi_object_sdf
+from geometry_rl.orbit.tasks.common.sim_utils import (
+    MultiAssetCfg,
+    spawn_fixed_number_of_multi_object_sdf,
+)
 from .env_cfg import RigidInsertionTwoAgentsEnvCfg
 from ..common_cfg.grippers_cfg import TwoSuctionGrippers
 from ..common_cfg.scene_cfg import RigidSceneCfg

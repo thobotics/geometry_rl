@@ -156,17 +156,22 @@ def reset_cubes_uniform_rotation_around_z(
 
     rope_difference = rope_link_pos.view(-1, 3) - rope_center_repeat.view(-1, 3)
     rotated_positions = rotate_positions_around_z_torch(
-        rope_difference, rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3)
+        rope_difference,
+        rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3),
     )
     rotated_positions += rope_center_repeat.reshape(-1, 3)
     rotated_positions += env_origin_repeat.reshape(-1, 3)
 
     rotated_link_state = torch.cat(
-        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)], dim=-1
+        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)],
+        dim=-1,
     )
     for _ in range(n_repeat):
         rope.write_link_pose_to_sim(rotated_link_state, env_ids=env_ids)
-        rope.write_link_velocity_to_sim(torch.zeros(rotated_positions.shape[0], 6, device=env.device), env_ids=env_ids)
+        rope.write_link_velocity_to_sim(
+            torch.zeros(rotated_positions.shape[0], 6, device=env.device),
+            env_ids=env_ids,
+        )
 
 
 def reset_cubes_uniform_around_origin(
@@ -255,17 +260,22 @@ def reset_cubes_uniform_around_origin(
 
     rope_difference = rope_link_pos.view(-1, 3) - origin_center_repeat.view(-1, 3)
     rotated_positions = rotate_positions_around_z_torch(
-        rope_difference, rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3)
+        rope_difference,
+        rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3),
     )
     rotated_positions += origin_center_repeat.reshape(-1, 3)
     rotated_positions += env_origin_repeat.reshape(-1, 3)
 
     rotated_link_state = torch.cat(
-        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)], dim=-1
+        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)],
+        dim=-1,
     )
     for _ in range(n_repeat):
         rope.write_link_pose_to_sim(rotated_link_state, env_ids=env_ids)
-        rope.write_link_velocity_to_sim(torch.zeros(rotated_positions.shape[0], 6, device=env.device), env_ids=env_ids)
+        rope.write_link_velocity_to_sim(
+            torch.zeros(rotated_positions.shape[0], 6, device=env.device),
+            env_ids=env_ids,
+        )
 
 
 def reset_cubes_uniform_rotation_around_z_with_target_shape(
@@ -275,7 +285,10 @@ def reset_cubes_uniform_rotation_around_z_with_target_shape(
     angle_range: tuple[float, float] | tuple[float, float, float, float],
     velocity_range: dict[str, tuple[float, float]],
     target_cfg: SceneEntityCfg = None,
-    target_angle_range: tuple[float, float] | tuple[float, float, float, float] = (-0.0, 0.0),
+    target_angle_range: tuple[float, float] | tuple[float, float, float, float] = (
+        -0.0,
+        0.0,
+    ),
     use_degrees: bool = False,
     n_repeat: int = 5,
 ):
@@ -312,7 +325,8 @@ def reset_cubes_uniform_rotation_around_z_with_target_shape(
 
         # set into the physics simulation
         target.write_root_pose_to_sim(
-            torch.cat([root_states[:, 0:3], new_origin_orientations], dim=-1), env_ids=env_ids
+            torch.cat([root_states[:, 0:3], new_origin_orientations], dim=-1),
+            env_ids=env_ids,
         )
 
     if len(angle_range) == 2:
@@ -369,14 +383,19 @@ def reset_cubes_uniform_rotation_around_z_with_target_shape(
 
     rope_difference = rope_link_pos.view(-1, 3) - rope_center_repeat.view(-1, 3)
     rotated_positions = rotate_positions_around_z_torch(
-        rope_difference, rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3)
+        rope_difference,
+        rotation_matrices.unsqueeze(1).repeat(1, num_links, 1, 1).reshape(-1, 3, 3),
     )
     rotated_positions += rope_center_repeat.reshape(-1, 3)
     rotated_positions += env_origin_repeat.reshape(-1, 3)
 
     rotated_link_state = torch.cat(
-        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)], dim=-1
+        [rotated_positions, rope.data.default_link_rot[env_ids].clone().reshape(-1, 4)],
+        dim=-1,
     )
     for _ in range(n_repeat):
         rope.write_link_pose_to_sim(rotated_link_state, env_ids=env_ids)
-        rope.write_link_velocity_to_sim(torch.zeros(rotated_positions.shape[0], 6, device=env.device), env_ids=env_ids)
+        rope.write_link_velocity_to_sim(
+            torch.zeros(rotated_positions.shape[0], 6, device=env.device),
+            env_ids=env_ids,
+        )

@@ -88,9 +88,12 @@ def object_geometry(env: RLTaskEnv, name: str, aux_data: AuxiliaryData) -> torch
     # extract the used quantities (to enable type-hinting)
 
     if aux_data.object_geometry_positions is None:
-        aux_data.object_geometry_positions, aux_data.num_points, aux_data.object_geometry_edges, aux_data.num_edges = (
-            get_geometry_from_rigid_object(env, name, return_num=True, return_edges=True)
-        )
+        (
+            aux_data.object_geometry_positions,
+            aux_data.num_points,
+            aux_data.object_geometry_edges,
+            aux_data.num_edges,
+        ) = get_geometry_from_rigid_object(env, name, return_num=True, return_edges=True)
     return aux_data.object_geometry_positions
 
 

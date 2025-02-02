@@ -55,13 +55,9 @@ class ClipPPOLoss2(ClipPPOLoss):
                 clip_value = torch.tensor(clip_value)
             elif isinstance(clip_value, torch.Tensor):
                 if clip_value.numel() != 1:
-                    raise ValueError(
-                        f"clip_value must be a float or a scalar tensor, got {clip_value}."
-                    )
+                    raise ValueError(f"clip_value must be a float or a scalar tensor, got {clip_value}.")
             else:
-                raise ValueError(
-                    f"clip_value must be a float or a scalar tensor, got {clip_value}."
-                )
+                raise ValueError(f"clip_value must be a float or a scalar tensor, got {clip_value}.")
         self.register_buffer("clip_value", clip_value)
 
     def loss_critic(self, tensordict: TensorDictBase) -> torch.Tensor:
@@ -90,11 +86,7 @@ class ClipPPOLoss2(ClipPPOLoss):
                     f"Make sure that the value_key passed to PPO exists in the input tensordict."
                 )
 
-        with (
-            self.critic_network_params.to_module(self.critic_network)
-            if self.functional
-            else contextlib.nullcontext()
-        ):
+        with self.critic_network_params.to_module(self.critic_network) if self.functional else contextlib.nullcontext():
             state_value_td = self.critic_network(tensordict)
 
         try:

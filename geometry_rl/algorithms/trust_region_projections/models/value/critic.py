@@ -1,5 +1,6 @@
 from torch import nn
 
+
 class BaseCritic(nn.Module):
     def __init__(self, vf):
         super().__init__()

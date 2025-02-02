@@ -42,23 +42,19 @@ class BaseGNN(torch.nn.Module):
         self.num_messages = num_messages
         self.shared_processor = shared_processor
 
-        self.node_encoder = self._create_node_encoder(
-            input_dim_node, hidden_dim, latent_dim, node_encoder_layers
-        ).to(device)
-        self.edge_encoder = self._create_edge_encoder(
-            input_dim_edge, hidden_dim, latent_dim, edge_encoder_layers
-        ).to(device)
+        self.node_encoder = self._create_node_encoder(input_dim_node, hidden_dim, latent_dim, node_encoder_layers).to(
+            device
+        )
+        self.edge_encoder = self._create_edge_encoder(input_dim_edge, hidden_dim, latent_dim, edge_encoder_layers).to(
+            device
+        )
         self.processor = self._create_processor(latent_dim, num_messages)
-        self.decoder = self._create_decoder(
-            latent_dim, hidden_dim, output_dim, node_decoder_layers
-        ).to(device)
+        self.decoder = self._create_decoder(latent_dim, hidden_dim, output_dim, node_decoder_layers).to(device)
 
     def reset(self, batch_size: int = 1, device: torch.device = "cuda"):
         pass
 
-    def _create_node_encoder(
-        self, input_dim_node, hidden_dim, latent_dim, num_layers=1
-    ):
+    def _create_node_encoder(self, input_dim_node, hidden_dim, latent_dim, num_layers=1):
         node_encoder = nn.ModuleList()
         for _ in range(num_layers):
             node_encoder.append(Linear(input_dim_node, hidden_dim))
@@ -69,9 +65,7 @@ class BaseGNN(torch.nn.Module):
         node_encoder = nn.Sequential(*node_encoder)
         return node_encoder
 
-    def _create_edge_encoder(
-        self, input_dim_edge, hidden_dim, latent_dim, num_layers=1
-    ):
+    def _create_edge_encoder(self, input_dim_edge, hidden_dim, latent_dim, num_layers=1):
         edge_encoder = nn.ModuleList()
         for _ in range(num_layers):
             edge_encoder.append(Linear(input_dim_edge, hidden_dim))

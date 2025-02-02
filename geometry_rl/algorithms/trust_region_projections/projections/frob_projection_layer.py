@@ -36,9 +36,7 @@ class FrobeniusProjectionLayer(BaseProjectionLayer):
 
         ####################################################################################################################
         # precompute mean and cov part of frob projection, which are used for the projection.
-        mean_part, cov_part, cov, cov_old = gaussian_frobenius(
-            policy, p, q, self.scale_prec, True
-        )
+        mean_part, cov_part, cov, cov_old = gaussian_frobenius(policy, p, q, self.scale_prec, True)
 
         ################################################################################################################
         # mean projection maha/euclidean
@@ -56,9 +54,7 @@ class FrobeniusProjectionLayer(BaseProjectionLayer):
             eta[cov_mask] = ch.sqrt(cov_part[cov_mask] / eps_cov) - 1.0
             eta = ch.max(-eta, eta)
 
-            new_cov = (cov + ch.einsum("i,ijk->ijk", eta, cov_old)) / (
-                1.0 + eta + 1e-16
-            )[..., None, None]
+            new_cov = (cov + ch.einsum("i,ijk->ijk", eta, cov_old)) / (1.0 + eta + 1e-16)[..., None, None]
             proj_chol = ch.where(cov_mask[..., None, None], ch.cholesky(new_cov), chol)
         else:
             proj_chol = chol

@@ -8,7 +8,10 @@ from dataclasses import MISSING
 from omni.isaac.orbit.utils import configclass
 from omni.isaac.orbit.assets import RigidObjectCfg
 
-from geometry_rl.orbit.tasks.common.sim_utils import MultiAssetCfg, spawn_fixed_number_of_multi_object_sdf
+from geometry_rl.orbit.tasks.common.sim_utils import (
+    MultiAssetCfg,
+    spawn_fixed_number_of_multi_object_sdf,
+)
 from .env_cfg import RigidPushingEnvCfg
 from ..common_cfg.grippers_cfg import PushingGrippers
 from ..common_cfg.scene_cfg import RigidSceneCfg
@@ -176,7 +179,10 @@ class MultiAssetsScene:
                 func=spawn_fixed_number_of_multi_object_sdf,
                 assets_cfg=[
                     PushingGrippers.default_cfg(
-                        rigid=True, disable_gravity=True, locked_rot_axis=7, size=(0.5, 0.05, 0.05)
+                        rigid=True,
+                        disable_gravity=True,
+                        locked_rot_axis=7,
+                        size=(0.5, 0.05, 0.05),
                     )
                     for _ in range(MultiGeometryScene.num_geometries)
                 ],

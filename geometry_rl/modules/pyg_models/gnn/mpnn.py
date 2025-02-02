@@ -5,9 +5,7 @@ from torch_geometric.nn.conv import MessagePassing
 
 
 class ProcessorLayer(MessagePassing):
-    def __init__(
-        self, in_channels, out_channels, update_edge=True, args="sum", **kwargs
-    ):
+    def __init__(self, in_channels, out_channels, update_edge=True, args="sum", **kwargs):
         super(ProcessorLayer, self).__init__(**kwargs)
         """
         in_channels: dim of node embeddings [128], out_channels: dim of edge embeddings [128]
@@ -67,9 +65,7 @@ class ProcessorLayer(MessagePassing):
         if isinstance(x, tuple):
             x_src, x_dst = x  # For bipartite graphs, x is a tuple (x_src, x_dst)
         else:
-            x_src = (
-                x_dst
-            ) = x  # For standard graphs, source and destination nodes are the same
+            x_src = x_dst = x  # For standard graphs, source and destination nodes are the same
 
         # Propagate method needs to be called accordingly
         out, updated_edges = self.propagate(
@@ -102,9 +98,7 @@ class ProcessorLayer(MessagePassing):
         """
 
         if self.update_edge:
-            updated_edges = torch.cat(
-                [x_i, x_j, edge_attr], dim=1
-            )  # tmp_emb has the shape of [E, 3 * in_channels]
+            updated_edges = torch.cat([x_i, x_j, edge_attr], dim=1)  # tmp_emb has the shape of [E, 3 * in_channels]
             updated_edges = self.edge_mlp(updated_edges) + edge_attr
         else:
             updated_edges = (x_i, x_j, edge_attr)

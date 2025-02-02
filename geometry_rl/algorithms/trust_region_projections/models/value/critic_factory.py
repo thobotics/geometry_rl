@@ -30,6 +30,4 @@ def get_critic(
         critic = BaseCritic(vf)
         return critic.to(device, dtype)
     else:
-        raise ValueError(
-            f"Invalid value_loss type {critic_type}. Select one of 'base', 'double', 'duelling'."
-        )
+        raise ValueError(f"Invalid value_loss type {critic_type}. Select one of 'base', 'double', 'duelling'.")

@@ -79,9 +79,7 @@ class KLProjectionLayer(BaseProjectionLayer):
                 proj_std = ch.zeros_like(std)
                 proj_std[~mask] = std[~mask]
                 if mask.any():
-                    proj_cov = KLProjectionGradFunctionCovOnly.apply(
-                        cov, std.detach(), old_std, eps_cov
-                    )
+                    proj_cov = KLProjectionGradFunctionCovOnly.apply(cov, std.detach(), old_std, eps_cov)
 
                     # needs projection and projection failed
                     # mean propagates the nan values to the batch dimensions, in case any of entries is nan
@@ -119,10 +117,8 @@ class KLProjectionGradFunctionCovOnly(ch.autograd.Function):
     @staticmethod
     def get_projection_op(batch_shape, dim, max_eval=MAX_EVAL):
         if not KLProjectionGradFunctionCovOnly.projection_op:
-            KLProjectionGradFunctionCovOnly.projection_op = (
-                cpp_projection.BatchedCovOnlyProjection(
-                    batch_shape, dim, max_eval=max_eval
-                )
+            KLProjectionGradFunctionCovOnly.projection_op = cpp_projection.BatchedCovOnlyProjection(
+                batch_shape, dim, max_eval=max_eval
             )
         return KLProjectionGradFunctionCovOnly.projection_op
 
@@ -169,10 +165,8 @@ class KLProjectionGradFunctionDiagCovOnly(ch.autograd.Function):
     @staticmethod
     def get_projection_op(batch_shape, dim, max_eval=MAX_EVAL):
         if not KLProjectionGradFunctionDiagCovOnly.projection_op:
-            KLProjectionGradFunctionDiagCovOnly.projection_op = (
-                cpp_projection.BatchedDiagCovOnlyProjection(
-                    batch_shape, dim, max_eval=max_eval
-                )
+            KLProjectionGradFunctionDiagCovOnly.projection_op = cpp_projection.BatchedDiagCovOnlyProjection(
+                batch_shape, dim, max_eval=max_eval
             )
         return KLProjectionGradFunctionDiagCovOnly.projection_op
 
@@ -216,10 +210,8 @@ class KLProjectionGradFunctionDiagSplit(ch.autograd.Function):
     @staticmethod
     def get_projection_op(batch_shape, dim: int, max_eval: int = MAX_EVAL):
         if not KLProjectionGradFunctionDiagSplit.projection_op:
-            KLProjectionGradFunctionDiagSplit.projection_op = (
-                cpp_projection.BatchedSplitDiagMoreProjection(
-                    batch_shape, dim, max_eval=max_eval
-                )
+            KLProjectionGradFunctionDiagSplit.projection_op = cpp_projection.BatchedSplitDiagMoreProjection(
+                batch_shape, dim, max_eval=max_eval
             )
         return KLProjectionGradFunctionDiagSplit.projection_op
 
@@ -240,14 +232,10 @@ class KLProjectionGradFunctionDiagSplit(ch.autograd.Function):
         p_op = KLProjectionGradFunctionDiagSplit.get_projection_op(batch_shape, dim)
 
         try:
-            proj_mean, proj_cov = p_op.forward(
-                eps_mu, eps_sigma, old_mean, old_cov, mean_np, cov_np
-            )
+            proj_mean, proj_cov = p_op.forward(eps_mu, eps_sigma, old_mean, old_cov, mean_np, cov_np)
         except Exception:
             # try a second time
-            proj_mean, proj_cov = p_op.forward(
-                eps_mu, eps_sigma, old_mean, old_cov, mean_np, cov_np
-            )
+            proj_mean, proj_cov = p_op.forward(eps_mu, eps_sigma, old_mean, old_cov, mean_np, cov_np)
         ctx.proj = p_op
 
         return mean.new(proj_mean), cov.new(proj_cov)
@@ -279,14 +267,12 @@ class KLProjectionGradFunctionJoint(ch.autograd.Function):
     @staticmethod
     def get_projection_op(batch_shape, dim: int, max_eval: int = MAX_EVAL):
         if not KLProjectionGradFunctionJoint.projection_op:
-            KLProjectionGradFunctionJoint.projection_op = (
-                cpp_projection.BatchedProjection(
-                    batch_shape,
-                    dim,
-                    eec=False,
-                    constrain_entropy=False,
-                    max_eval=max_eval,
-                )
+            KLProjectionGradFunctionJoint.projection_op = cpp_projection.BatchedProjection(
+                batch_shape,
+                dim,
+                eec=False,
+                constrain_entropy=False,
+                max_eval=max_eval,
             )
         return KLProjectionGradFunctionJoint.projection_op
 
@@ -309,9 +295,7 @@ class KLProjectionGradFunctionJoint(ch.autograd.Function):
         p_op = KLProjectionGradFunctionJoint.get_projection_op(batch_shape, dim)
         ctx.proj = p_op
 
-        proj_mean, proj_cov = p_op.forward(
-            eps, beta, old_mean, old_cov, mean_np, cov_np
-        )
+        proj_mean, proj_cov = p_op.forward(eps, beta, old_mean, old_cov, mean_np, cov_np)
 
         return mean.new(proj_mean), cov.new(proj_cov)
 
@@ -319,7 +303,5 @@ class KLProjectionGradFunctionJoint(ch.autograd.Function):
     def backward(ctx: Any, *grad_outputs: Any) -> Any:
         projection_op = ctx.proj
         d_means, d_covs = grad_outputs
-        df_means, df_covs = projection_op.backward(
-            d_means.detach().numpy(), d_covs.detach().numpy()
-        )
+        df_means, df_covs = projection_op.backward(d_means.detach().numpy(), d_covs.detach().numpy())
         return d_means.new(df_means), d_means.new(df_covs), None, None, None, None

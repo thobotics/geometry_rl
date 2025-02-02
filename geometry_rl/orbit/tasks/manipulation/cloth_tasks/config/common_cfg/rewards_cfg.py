@@ -65,7 +65,12 @@ class HangingRewardsCfg:
 
     points_distorion = RewTerm(
         func=mdp.points_distortion,
-        params={"aux_data": aux_data, "asset_cfg": SceneEntityCfg("cloth"), "area_based": True, "edge_based": False},
+        params={
+            "aux_data": aux_data,
+            "asset_cfg": SceneEntityCfg("cloth"),
+            "area_based": True,
+            "edge_based": False,
+        },
         weight=-1.1,
     )
 

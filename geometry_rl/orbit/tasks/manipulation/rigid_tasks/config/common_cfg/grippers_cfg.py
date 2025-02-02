@@ -89,7 +89,12 @@ class Grippers:
         )
 
     @classmethod
-    def cuboid_cfg(cls, rigid: bool = True, size: tuple[float, float, float] = (0.025, 0.025, 0.5), **kwargs):
+    def cuboid_cfg(
+        cls,
+        rigid: bool = True,
+        size: tuple[float, float, float] = (0.025, 0.025, 0.5),
+        **kwargs,
+    ):
         physics_props = cls.build_physics_props(rigid, **kwargs)
         return sim_utils.CuboidCfg(
             size=size,

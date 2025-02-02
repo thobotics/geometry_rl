@@ -111,9 +111,7 @@ class PAPIProjection(BaseProjectionLayer):
         cov_part = cov_part.mean()
 
         if intermed_mean is not None:
-            maha_intermediate = (
-                0.5 * policy.maha(intermed_mean, old_mean, old_chol).mean()
-            )
+            maha_intermediate = 0.5 * policy.maha(intermed_mean, old_mean, old_chol).mean()
             mm = ch.min(maha_part, maha_intermediate)
 
         ################################################################################################################
@@ -122,16 +120,12 @@ class PAPIProjection(BaseProjectionLayer):
             old_cov = policy.covariance(old_chol)
 
             maha_delta = eps if intermed_mean is None else (eps - mm)
-            eta_rot = maha_delta / ch.max(
-                maha_part + cov_part, ch.tensor(1e-16, dtype=dtype, device=device)
-            )
+            eta_rot = maha_delta / ch.max(maha_part + cov_part, ch.tensor(1e-16, dtype=dtype, device=device))
             new_cov = (1 - eta_rot) * old_cov + eta_rot * cov
             proj_chol = ch.cholesky(new_cov)
 
             # recompute covariance part of KL for new chol
-            trace_term = (
-                0.5 * (torch_batched_trace(old_precision @ new_cov) - dim).mean()
-            )  # rotation difference
+            trace_term = 0.5 * (torch_batched_trace(old_precision @ new_cov) - dim).mean()  # rotation difference
             entropy_diff = 0.5 * (logdet_old - policy.log_determinant(proj_chol)).mean()
 
             cov_part = trace_term + entropy_diff
@@ -144,25 +138,11 @@ class PAPIProjection(BaseProjectionLayer):
         if maha_part + cov_part > eps + 1e-6:
             if intermed_mean is not None:
                 a = 0.5 * policy.maha(mean, intermed_mean, old_chol).mean()
-                b = (
-                    0.5
-                    * (
-                        (mean - intermed_mean)
-                        @ old_precision
-                        @ (intermed_mean - old_mean).T
-                    ).mean()
+                b = 0.5 * ((mean - intermed_mean) @ old_precision @ (intermed_mean - old_mean).T).mean()
+                c = maha_intermediate - ch.max(eps - cov_part, ch.tensor(0.0, dtype=dtype, device=device))
+                eta_mean = (-b + ch.sqrt(ch.max(b * b - a * c, ch.tensor(1e-16, dtype=dtype, device=device)))) / ch.max(
+                    a, ch.tensor(1e-16, dtype=dtype, device=device)
                 )
-                c = maha_intermediate - ch.max(
-                    eps - cov_part, ch.tensor(0.0, dtype=dtype, device=device)
-                )
-                eta_mean = (
-                    -b
-                    + ch.sqrt(
-                        ch.max(
-                            b * b - a * c, ch.tensor(1e-16, dtype=dtype, device=device)
-                        )
-                    )
-                ) / ch.max(a, ch.tensor(1e-16, dtype=dtype, device=device))
             else:
                 eta_mean = ch.sqrt(
                     ch.max(eps - cov_part, ch.tensor(1e-16, dtype=dtype, device=device))
@@ -227,9 +207,7 @@ class PAPIProjection(BaseProjectionLayer):
             # do not keep last policy in history, otherwise we could stack the same policy multiple times.
             if len(self.last_policies) >= 1:
                 policy.load_state_dict(self.last_policies.pop().state_dict())
-                logger.warning(
-                    f"No suitable policy found in backtracking of {len(self.last_policies)} policies."
-                )
+                logger.warning(f"No suitable policy found in backtracking of {len(self.last_policies)} policies.")
             return
 
         ################################################################################################################

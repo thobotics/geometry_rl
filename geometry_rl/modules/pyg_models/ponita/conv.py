@@ -77,7 +77,13 @@ class FiberBundleConv(torch_geometric.nn.MessagePassing):
 
         # Do the convolutions: 1. Spatial conv, 2. Spherical conv
         kernel = self.kernel(edge_attr)
-        x_1 = self.propagate(edge_index, size=size, x=(x_src, x_dst), kernel=kernel, dim_size=x_dst.size(0))
+        x_1 = self.propagate(
+            edge_index,
+            size=size,
+            x=(x_src, x_dst),
+            kernel=kernel,
+            dim_size=x_dst.size(0),
+        )
         if self.separable:
             fiber_kernel = self.fiber_kernel(fiber_attr)
             if self.depthwise:
@@ -85,7 +91,9 @@ class FiberBundleConv(torch_geometric.nn.MessagePassing):
             else:
                 x_2 = (
                     torch.einsum(
-                        "boc,opdc->bpd", x_1, fiber_kernel.unflatten(-1, (self.out_channels, self.in_channels))
+                        "boc,opdc->bpd",
+                        x_1,
+                        fiber_kernel.unflatten(-1, (self.out_channels, self.in_channels)),
                     )
                     / fiber_kernel.shape[-2]
                 )
@@ -111,7 +119,11 @@ class FiberBundleConv(torch_geometric.nn.MessagePassing):
             if self.depthwise:
                 return torch.einsum("bopc,boc->bpc", kernel, x_j)
             else:
-                return torch.einsum("bopdc,boc->bpd", kernel.unflatten(-1, (self.out_channels, self.in_channels)), x_j)
+                return torch.einsum(
+                    "bopdc,boc->bpd",
+                    kernel.unflatten(-1, (self.out_channels, self.in_channels)),
+                    x_j,
+                )
 
     def aggregate(self, edge_attr, edge_index, dim_size=None):
         """

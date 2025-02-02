@@ -68,9 +68,7 @@ def entropy_equality_projection(
     return mean, proj_std
 
 
-def mean_projection(
-    mean: ch.Tensor, old_mean: ch.Tensor, maha: ch.Tensor, eps: ch.Tensor
-):
+def mean_projection(mean: ch.Tensor, old_mean: ch.Tensor, maha: ch.Tensor, eps: ch.Tensor):
     """
     Projections the mean based on the Mahalanobis objective and trust region.
     Args:
@@ -102,9 +100,7 @@ def mean_projection(
     return proj_mean
 
 
-def mean_equality_projection(
-    mean: ch.Tensor, old_mean: ch.Tensor, maha: ch.Tensor, eps: ch.Tensor
-):
+def mean_equality_projection(mean: ch.Tensor, old_mean: ch.Tensor, maha: ch.Tensor, eps: ch.Tensor):
     """
     Projections the mean based on the Mahalanobis objective and trust region for an EQUALITY constraint.
     Args:
@@ -185,13 +181,9 @@ class BaseProjectionLayer(object):
 
         # projection utils
         assert (action_dim and total_train_steps) if entropy_schedule else True
-        self._entropy_proj = (
-            entropy_equality_projection if entropy_eq else entropy_inequality_projection
-        )
+        self._entropy_proj = entropy_equality_projection if entropy_eq else entropy_inequality_projection
         self._entropy_schedule_type = entropy_schedule
-        self._entropy_schedule = get_entropy_schedule(
-            entropy_schedule, total_train_steps, dim=action_dim
-        )
+        self._entropy_schedule = get_entropy_schedule(entropy_schedule, total_train_steps, dim=action_dim)
         self.target_entropy = tensorize(target_entropy, cpu=cpu, dtype=dtype)
         self.entropy_first = entropy_first
         self.entropy_eq = entropy_eq
@@ -204,22 +196,13 @@ class BaseProjectionLayer(object):
         self.lr_reg = lr_regression
         self.optimizer_type_reg = optimizer_regression
 
-    def __call__(
-        self,
-        policy: AbstractGaussianPolicy,
-        p: Tuple[ch.Tensor, ch.Tensor],
-        q,
-        step,
-        **kwargs
-    ):
+    def __call__(self, policy: AbstractGaussianPolicy, p: Tuple[ch.Tensor, ch.Tensor], q, step, **kwargs):
         # entropy_bound = self.policy.entropy(q_values) - self.target_entropy
         m = p[0]
         if self.initial_entropy is None:
             self.initial_entropy = policy.entropy(q).mean().detach()
         entropy_bound = self.get_entropy_bound(step) * m.new_ones(m.shape[0])
-        return self._projection(
-            policy, p, q, self.mean_bound, self.cov_bound, entropy_bound, **kwargs
-        )
+        return self._projection(policy, p, q, self.mean_bound, self.cov_bound, entropy_bound, **kwargs)
 
     def _trust_region_projection(
         self,
@@ -280,9 +263,7 @@ class BaseProjectionLayer(object):
 
         ################################################################################################################
         # trust region projection for mean and cov bounds
-        proj_mean, proj_std = self._trust_region_projection(
-            policy, p, q, eps, eps_cov, **kwargs
-        )
+        proj_mean, proj_std = self._trust_region_projection(policy, p, q, eps, eps_cov, **kwargs)
 
         ################################################################################################################
         # entropy projection in the end
@@ -346,9 +327,7 @@ class BaseProjectionLayer(object):
         return trust_region_loss * self.trust_region_coeff
 
     def get_entropy_bound(self, step):
-        return self._entropy_schedule(
-            self.initial_entropy, self.target_entropy, self.temperature, step
-        )
+        return self._entropy_schedule(self.initial_entropy, self.target_entropy, self.temperature, step)
 
     def compute_metrics(self, policy, p, q, step=None, aggregate=True) -> dict:
         """
@@ -400,11 +379,7 @@ class BaseProjectionLayer(object):
 
         if self.has_entropy_control:
             assert step is not None
-            constraints_dict.update(
-                OrderedDict(
-                    entropy_constraint=(entropy - self.get_entropy_bound(step)).mean()
-                )
-            )
+            constraints_dict.update(OrderedDict(entropy_constraint=(entropy - self.get_entropy_bound(step)).mean()))
 
         return constraints_dict
 
@@ -462,10 +437,7 @@ class BaseProjectionLayer(object):
                 p = policy_unprojected(b_obs)
 
                 # invert scaling with coeff here as we do not have to balance with other losses
-                loss = (
-                    self.get_trust_region_loss(policy, p, proj_p)
-                    / self.trust_region_coeff
-                )
+                loss = self.get_trust_region_loss(policy, p, proj_p) / self.trust_region_coeff
 
                 optim_reg.zero_grad()
                 loss.backward()

@@ -61,9 +61,7 @@ def gaussian_kl(
     # cov = policy.covariance(std)
     # prec_other = policy.precision(std_other)
     # trace_part = torch_batched_trace(prec_other @ cov)
-    trace_part = torch_batched_trace_square(
-        ch.linalg.solve_triangular(std_other, std, upper=False)
-    )
+    trace_part = torch_batched_trace_square(ch.linalg.solve_triangular(std_other, std, upper=False))
     cov_part = 0.5 * (trace_part - k + det_term_other - det_term)
 
     return maha_part, cov_part
@@ -75,9 +73,7 @@ def gaussian_frobenius(
     q: Tuple[ch.Tensor, ch.Tensor],
     scale_prec: bool = False,
     return_cov: bool = False,
-) -> Union[
-    Tuple[ch.Tensor, ch.Tensor], Tuple[ch.Tensor, ch.Tensor, ch.Tensor, ch.Tensor]
-]:
+) -> Union[Tuple[ch.Tensor, ch.Tensor], Tuple[ch.Tensor, ch.Tensor, ch.Tensor, ch.Tensor]]:
     """
     Compute (p - q_values) (L_oL_o^T)^-1 (p - 1)^T + |LL^T - L_oL_o^T|_F^2 with p,q_values ~ N(y, LL^T)
     Args:
@@ -159,9 +155,7 @@ def gaussian_wasserstein_non_commutative(
     q: Tuple[ch.Tensor, ch.Tensor],
     scale_prec=False,
     return_eig=False,
-) -> Union[
-    Tuple[ch.Tensor, ch.Tensor], Tuple[ch.Tensor, ch.Tensor, ch.Tensor, ch.Tensor]
-]:
+) -> Union[Tuple[ch.Tensor, ch.Tensor], Tuple[ch.Tensor, ch.Tensor, ch.Tensor, ch.Tensor]]:
     """
     Compute mean part and cov part of W_2(p || q_values) with p,q_values ~ N(y, SS)
     This version DOES NOT assume commutativity of both distributions, i.e. covariance matrices.
@@ -205,9 +199,7 @@ def gaussian_wasserstein_non_commutative(
 
         # compute inner parenthesis of trace in W2,
         # Only consider lower triangular parts, given cov/sqrt(cov) is symmetric PSD.
-        eigvals, eigvecs = ch.symeig(
-            cov @ cov_other, eigenvectors=return_eig, upper=False
-        )
+        eigvals, eigvecs = ch.symeig(cov @ cov_other, eigenvectors=return_eig, upper=False)
         # make use of the following property to compute the trace of the root: 𝐴^2𝑥=𝐴(𝐴𝑥)=𝐴𝜆𝑥=𝜆(𝐴𝑥)=𝜆^2𝑥
         cov_part = torch_batched_trace(cov_other + cov) - 2 * eigvals.sqrt().sum(1)
 
@@ -237,15 +229,11 @@ def constraint_values(
 
     """
     if proj_type == "w2":
-        mean_part, cov_part = gaussian_wasserstein_commutative(
-            policy, p, q, scale_prec=scale_prec
-        )
+        mean_part, cov_part = gaussian_wasserstein_commutative(policy, p, q, scale_prec=scale_prec)
 
     elif proj_type == "w2_non_com":
         # For this case only the sum is relevant, no individual projections for mean and std make sense
-        mean_part, cov_part = gaussian_wasserstein_non_commutative(
-            policy, p, q, scale_prec=scale_prec
-        )
+        mean_part, cov_part = gaussian_wasserstein_non_commutative(policy, p, q, scale_prec=scale_prec)
 
     elif proj_type == "frob":
         mean_part, cov_part = gaussian_frobenius(policy, p, q, scale_prec=scale_prec)
@@ -282,16 +270,11 @@ def get_entropy_schedule(schedule_type, total_train_steps, dim):
     # if schedule_type == "linear_v2":
     #     return lambda old_entropy, beta, step: old_entropy - beta
     elif schedule_type == "exp":
-        return (
-            lambda initial_entropy, target_entropy, temperature, step: dim
-            * target_entropy
-            + (initial_entropy - dim * target_entropy)
-            * temperature ** (10 * step / total_train_steps)
-        )
+        return lambda initial_entropy, target_entropy, temperature, step: dim * target_entropy + (
+            initial_entropy - dim * target_entropy
+        ) * temperature ** (10 * step / total_train_steps)
     # elif schedule_type == "exp_v2":
     #     return lambda old_entropy, beta, step: old_entropy - (
     #             - step / (total_train_step / temperature) + beta.log()).exp()
     else:
-        return lambda initial_entropy, target_entropy, temperature, step: target_entropy.new(
-            [-np.inf]
-        )
+        return lambda initial_entropy, target_entropy, temperature, step: target_entropy.new([-np.inf])

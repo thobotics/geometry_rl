@@ -28,8 +28,6 @@ def get_policy_network(
     if policy_type == "gnn_diag":
         policy = GNNGaussianPolicyDiag(**kwargs)
     else:
-        raise ValueError(
-            f"Invalid policy type {policy_type}. Select one of 'full', 'diag'."
-        )
+        raise ValueError(f"Invalid policy type {policy_type}. Select one of 'full', 'diag'.")
 
     return policy.to(device, dtype)

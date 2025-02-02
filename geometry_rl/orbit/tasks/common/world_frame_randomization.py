@@ -2,7 +2,12 @@ from omni.isaac.orbit.assets import Articulation, RigidObject, ClothObject
 from omni.isaac.orbit.envs import BaseEnv
 from omni.isaac.orbit.managers import RandomizationTermCfg, SceneEntityCfg
 from omni.isaac.orbit.managers.manager_base import ManagerTermBase
-from omni.isaac.orbit.utils.math import sample_uniform, quat_from_euler_xyz, quat_mul, yaw_quat
+from omni.isaac.orbit.utils.math import (
+    sample_uniform,
+    quat_from_euler_xyz,
+    quat_mul,
+    yaw_quat,
+)
 
 import torch
 
@@ -196,7 +201,8 @@ def reset_objects_uniform_around_origin(
 
         # Set into the physics simulation
         origin_object.write_root_pose_to_sim(
-            torch.cat([origin_positions, new_origin_orientations], dim=-1), env_ids=env_ids
+            torch.cat([origin_positions, new_origin_orientations], dim=-1),
+            env_ids=env_ids,
         )
 
     # Rotate cubes

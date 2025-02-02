@@ -59,7 +59,13 @@ class HEPi(BaseGNN):
         self.output_dim_vec = output_dim_vec
 
         self.register_buffer(
-            "ori_grid", GridGenerator(self.dim, num_ori, steps=1000, only_upper_hemisphere=only_upper_hemisphere)()
+            "ori_grid",
+            GridGenerator(
+                self.dim,
+                num_ori,
+                steps=1000,
+                only_upper_hemisphere=only_upper_hemisphere,
+            )(),
         )
 
         # Activation function to use internally

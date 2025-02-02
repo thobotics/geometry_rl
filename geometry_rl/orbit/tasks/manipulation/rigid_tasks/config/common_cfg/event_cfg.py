@@ -1,7 +1,9 @@
 from __future__ import annotations
 from omni.isaac.orbit.managers import RandomizationTermCfg as RandTerm
 from omni.isaac.orbit.utils import configclass
-from geometry_rl.orbit.tasks.common.world_frame_randomization import reset_objects_uniform_around_origin
+from geometry_rl.orbit.tasks.common.world_frame_randomization import (
+    reset_objects_uniform_around_origin,
+)
 
 from math import pi
 

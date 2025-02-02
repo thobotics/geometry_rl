@@ -19,8 +19,7 @@ def get_projection_layer(proj_type: str = "", **kwargs) -> BaseProjectionLayer:
     if (
         not proj_type
         or proj_type.isspace()
-        or proj_type.lower()
-        in ["ppo", "sac", "td3", "mpo", "vlearn", "vtrace", "awr", "entropy"]
+        or proj_type.lower() in ["ppo", "sac", "td3", "mpo", "vlearn", "vtrace", "awr", "entropy"]
     ):
         return BaseProjectionLayer(proj_type, **kwargs)
 

@@ -210,6 +210,7 @@ class NoObjectVelObservationCfg(FullObservationsCfg):
     # observation groups
     velocity_vectors: VelocityVectorsCfg = VelocityVectorsCfg()
 
+
 class FullSceneObservationTwoAgents(FullSceneObservation):
     @classmethod
     def grippers_positions(cls):
