@@ -1,8 +1,8 @@
-# GeometryRL
+# Geometry-aware **RL** for Manipulation of Varying Shapes and Deformable Objects
 
 ## Getting Started
 
-To get started with GeometryRL, follow the steps below:
+To get started with ***GeometryRL***, follow the steps below:
 
 0. Preliminaries:
     The default workspace structure looks like this
@@ -39,16 +39,12 @@ To get started with GeometryRL, follow the steps below:
     orbit -p examples/torchrl/play.py -cn rigid_insertion_multi_hepi_trpl_cfg --checkpoint_name model_checkpoint_best.pth
     ```
 
-## License
-
-GeometryRL is licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
 
 ## Citation
 
 ```
 @inproceedings{
-anonymous2025geometryaware,
+hoang2025geometryaware,
 title={Geometry-aware {RL} for Manipulation of Varying Shapes and Deformable Objects},
 author={Tai Hoang and Huy Le and Philipp Becker and Vien Anh Ngo and Gerhard Neumann},
 booktitle={The Thirteenth International Conference on Learning Representations},
