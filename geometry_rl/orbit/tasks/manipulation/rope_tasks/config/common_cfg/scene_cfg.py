@@ -132,7 +132,7 @@ class ShapingSceneCfg(InteractiveSceneCfg):
                 locked_rot_axis=7,
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(collision_enabled=False),
-            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.294117, 0.270588, 0.0), opacity=0.05),
+            visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=(0.294117, 0.270588, 0.0), opacity=0.25),
         ),
         init_state=RigidObjectCfg.InitialStateCfg(pos=(4.0, 0.0, -1.0)),
     )
@@ -147,7 +147,7 @@ class ShapingSceneCfg(InteractiveSceneCfg):
     # lights
     light = AssetBaseCfg(
         prim_path="/World/light",
-        spawn=sim_utils.SphereLightCfg(color=(0.75, 0.75, 0.75), intensity=10000.0, radius=5.0),
+        spawn=sim_utils.DistantLightCfg(color=(0.75, 0.75, 0.75), intensity=1000.0, exposure=3.0),
     )
 
     def __post_init__(self):

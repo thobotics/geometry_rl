@@ -95,6 +95,18 @@ def parse_args():
         default="logs/data",
         help="Path to the directory to save the data.",
     )
+    parser.add_argument(
+        "--record_video",
+        action="store_true",
+        default=False,
+        help="Whether to record video during evaluation.",
+    )
+    parser.add_argument(
+        "--video_dir",
+        type=str,
+        default="output_videos",
+        help="Path to the directory to save the videos.",
+    )
     return parser.parse_args()
 
 
@@ -107,6 +119,8 @@ def main(
     save_data: bool = False,
     save_dir: str = "logs/data",
     exploration_type: str = "default",
+    record_video: bool = False,
+    video_dir: str = "logs/videos",
     **kwargs,
 ):  # noqa: F821
     """Start Isaac Sim Simulator first."""
@@ -215,6 +229,9 @@ def main(
     with open(json_path, "w") as f:
         json.dump(test_rewards_dict, f)
 
+    if record_video:
+        env.close()
+
 
 if __name__ == "__main__":
     args = parse_args()
@@ -239,6 +256,11 @@ if __name__ == "__main__":
     # Override the number of environments and headless mode
     merged_cfg.env.num_envs = args.num_envs
     merged_cfg.simulator.headless = args.headless
+    if args.record_video:
+        merged_cfg.env.video = args.record_video
+        merged_cfg.env.video_dir = args.video_dir
+        if args.headless:
+            merged_cfg.simulator.offscreen_render = True
 
     del args.log_dir
     del args.experiment_dir

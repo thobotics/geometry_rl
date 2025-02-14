@@ -9,6 +9,7 @@ from ..common_cfg.rewards_cfg import HangingRewardsCfg, ICLRHangingRewardsCfg
 from ..common_cfg.terminations_cfg import TerminationsCfg
 from ..common_cfg.event_cfg import HangingRandomizationCfg
 from ..common_cfg.scene_cfg import HangingSceneCfg, MultiAssetsClothSceneCfg
+from omni.isaac.orbit.envs import ViewerCfg
 
 ##
 # Environment configuration
@@ -18,6 +19,8 @@ from ..common_cfg.scene_cfg import HangingSceneCfg, MultiAssetsClothSceneCfg
 @configclass
 class ClothHangingEnvCfg(RLTaskEnvCfg):
     """Configuration for the lifting environment."""
+
+    viewer: ViewerCfg = ViewerCfg(resolution=(2560, 1440))  # 2K
 
     # Scene settings
     scene: HangingSceneCfg = HangingSceneCfg(num_envs=40, env_spacing=5.0, replicate_physics=False)

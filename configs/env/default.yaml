@@ -15,5 +15,7 @@ env_info:
 
 # Video recording settings
 video: False
-video_length: 200
+video_length: 0
 video_interval: 2000
+video_episode_trigger: 0
+video_dir: output_videos

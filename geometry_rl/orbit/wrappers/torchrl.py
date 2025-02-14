@@ -114,6 +114,13 @@ class OrbitTorchRLWrapper(GymWrapper, metaclass=_SyncMeta):
                 render_mode="rgb_array" if config["video"] else None,
                 disable_env_checker=True,
             )
+            if config["video"]:
+                def episode_trigger(episode):
+                    return True if config["video_episode_trigger"] == 0 else episode % config["video_episode_trigger"] == 0
+                envs = gym.wrappers.RecordVideo(
+                    envs, config["video_dir"], episode_trigger=episode_trigger, video_length=config["video_length"], disable_logger=True
+                )
+
             cls._envs = envs
         else:
             envs = cls._envs
@@ -189,8 +196,8 @@ class OrbitTorchRLWrapper(GymWrapper, metaclass=_SyncMeta):
             observations = {key: observations}
         return observations
 
-    def _reset(self, tensordict: TensorDictBase) -> TensorDictBase:
-        td_out = super()._reset(tensordict)
+    def _reset(self, tensordict: TensorDictBase, **kwargs) -> TensorDictBase:
+        td_out = super()._reset(tensordict, **kwargs)
 
         # Dummy actions before getting the first observation
         obs = None

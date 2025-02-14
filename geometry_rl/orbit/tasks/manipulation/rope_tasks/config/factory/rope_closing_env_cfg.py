@@ -9,6 +9,8 @@ from ..common_cfg.rewards_cfg import ClosingRewardsCfg
 from ..common_cfg.terminations_cfg import TerminationsCfg
 from ..common_cfg.event_cfg import ClosingRandomizationCfg
 from ..common_cfg.scene_cfg import ClosingSceneCfg
+from omni.isaac.orbit.envs import ViewerCfg
+
 
 ##
 # Environment configuration
@@ -19,8 +21,10 @@ from ..common_cfg.scene_cfg import ClosingSceneCfg
 class RopeClosingEnvCfg(RLTaskEnvCfg):
     """Configuration for the lifting environment."""
 
+    viewer: ViewerCfg = ViewerCfg(resolution=(2560, 1440))  # 2K
+
     # Scene settings
-    scene: ClosingSceneCfg = ClosingSceneCfg(num_envs=40, env_spacing=7.0, replicate_physics=False)
+    scene: ClosingSceneCfg = ClosingSceneCfg(num_envs=40, env_spacing=40.0, replicate_physics=False)
 
     # Basic settings
     observations: ClosingObservationsCfg = ClosingObservationsCfg()

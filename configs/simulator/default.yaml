@@ -5,3 +5,5 @@ video_interval: ${env.video_interval}
 headless: False
 livestream: -1
 offscreen_render: False
+window_width: 1920
+window_height: 1080

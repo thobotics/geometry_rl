@@ -8,6 +8,7 @@ from ..common_cfg.rewards_cfg import ShapingRewardsCfg
 from ..common_cfg.terminations_cfg import TerminationsCfg
 from ..common_cfg.observations_cfg import ShapingObservationsCfg
 from ..common_cfg.scene_cfg import ShapingSceneCfg
+from omni.isaac.orbit.envs import ViewerCfg
 
 
 ##
@@ -18,6 +19,8 @@ from ..common_cfg.scene_cfg import ShapingSceneCfg
 @configclass
 class RopeShapingEnvCfg(RLTaskEnvCfg):
     """Configuration for the lifting environment."""
+
+    viewer: ViewerCfg = ViewerCfg(resolution=(2560, 1440))  # 2K
 
     # Scene settings
     scene: ShapingSceneCfg = ShapingSceneCfg(num_envs=40, env_spacing=10.0, replicate_physics=False)

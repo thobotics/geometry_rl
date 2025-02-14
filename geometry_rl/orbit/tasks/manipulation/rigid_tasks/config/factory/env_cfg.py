@@ -29,11 +29,14 @@ from ..common_cfg.event_cfg import (
     PushingRandomizationCfg,
 )
 import omni.isaac.orbit.sim as sim_utils
+from omni.isaac.orbit.envs import ViewerCfg
 
 
 @configclass
 class RigidSlidingEnvCfg(RLTaskEnvCfg):
     """Configuration for the lifting environment."""
+
+    viewer: ViewerCfg = ViewerCfg(resolution=(2560, 1440))  # 2K
 
     # Scene settings
     scene: RigidSceneCfg = RigidSceneCfg(num_envs=40, env_spacing=2.0, replicate_physics=False)
@@ -109,6 +112,8 @@ class RigidInsertionTwoAgentsEnvCfg(RigidInsertionEnvCfg):
 @configclass
 class RigidPushingEnvCfg(RLTaskEnvCfg):
     """Configuration for the lifting environment."""
+
+    viewer: ViewerCfg = ViewerCfg(resolution=(2560, 1440))  # 2K
 
     # Scene settings
     scene: RigidSceneCfg = RigidSceneCfg(num_envs=40, env_spacing=2.0, replicate_physics=False)
