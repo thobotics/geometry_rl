@@ -54,7 +54,7 @@ _build
 # ignore bashrc_history
 .bash_history
 
-*.usd
+# *.usd
 # *.usda
 *.pdf
 *.png
