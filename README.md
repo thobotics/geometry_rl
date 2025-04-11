@@ -1,5 +1,5 @@
 # Geometry-aware **RL** for Manipulation of Varying Shapes and Deformable Objects
-⭐ **Accepted at [ICLR 2025 (Oral)]((https://openreview.net/forum?id=7BLXhmWvwF))** ⭐
+⭐ **Accepted at [ICLR 2025 (Oral)](https://openreview.net/forum?id=7BLXhmWvwF)** ⭐
 
 ## 🚀 Getting Started
 
